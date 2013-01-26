@@ -2,14 +2,18 @@
 #define GAMEENGINE_H
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 #include "gamestate.h"
 
 using namespace std;
+
+class GameState;
 
 class GameEngine
 {
@@ -17,23 +21,21 @@ public:
     GameEngine(sf::VideoMode videoMode, const string &title);
     ~GameEngine();
 
-    void changeState(GameState* state);
-    void pushState(GameState* state);
+    void changeState(GameState *state);
+    void pushState(GameState *state);
     void popState();
 
     void handleEvents();
     void update();
     void draw();
 
-    bool running(){return _running;}
-    void quit(){_running = false;}
+    bool running();
+    void quit();
 
-    sf::Window* window;
+    sf::RenderWindow* window;
 
 private:
-    vector<GameState*> states;
-
-    bool _running;
+    vector< shared_ptr<GameState> > _states;
 };
 
 #endif // GAMEENGINE_H
