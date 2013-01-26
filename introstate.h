@@ -1,8 +1,6 @@
 #ifndef INTROSTATE_H
 #define INTROSTATE_H
 
-#include <memory>
-
 #include "gamestate.h"
 
 using namespace std;
@@ -21,10 +19,13 @@ public:
     void draw(GameEngine *game);
 
 private:
-    GameEngine* _game;
+    sf::Font _sourceSansPro;
+    sf::Text _title;
+    sf::Text _name;
+    sf::Text _keyboardCommands;
 
-    shared_ptr<sf::Texture> _texture;
-    shared_ptr<sf::Sprite> _sprite;
+//    shared_ptr<sf::Texture> _texture;
+//    shared_ptr<sf::Sprite> _sprite;
 };
 
 #endif // INTROSTATE_H

@@ -5,7 +5,7 @@ GameEngine::GameEngine(sf::VideoMode videoMode, const string &title)
     // SFML-Fenster erstellen
     this->window = new sf::RenderWindow(videoMode, title, sf::Style::Close);
 
-    cout << "GameEngine - Initialization" << endl;
+    cout << "[GameEngine] Initialization" << endl;
 }
 
 GameEngine::~GameEngine()
@@ -16,7 +16,7 @@ GameEngine::~GameEngine()
         this->_states.pop_back();
     }
 
-    cout << "GameEngine - Cleanup" << endl;
+    cout << "[GameEngine] Cleanup" << endl;
 }
 
 void GameEngine::changeState(GameState *state)

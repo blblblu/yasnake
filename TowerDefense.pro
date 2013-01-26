@@ -19,4 +19,6 @@ QMAKE_CXXFLAGS += -std=c++0x
 
 OTHER_FILES += \
     intro.svg \
-    intro.png
+    intro.png \
+    SourceSansPro-Light.ttf \
+    SourceSansPro-Light.ttf
