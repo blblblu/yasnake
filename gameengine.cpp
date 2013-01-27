@@ -5,6 +5,9 @@ GameEngine::GameEngine(sf::VideoMode videoMode, const string &title)
     // SFML-Fenster erstellen
     this->window = shared_ptr<sf::RenderWindow>(new sf::RenderWindow(videoMode, title, sf::Style::Close));
 
+    this->view = shared_ptr<sf::View>(new sf::View(sf::Vector2f(400, 300), sf::Vector2f(800, 600)));
+    this->window->setView(*this->view);
+
     cout << "[GameEngine] Initialization" << endl;
 }
 

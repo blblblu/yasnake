@@ -32,6 +32,7 @@ public:
     bool running();
     void quit();
 
+    shared_ptr<sf::View> view;
     shared_ptr<sf::RenderWindow> window;
 
 private:
