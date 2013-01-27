@@ -32,7 +32,7 @@ public:
     bool running();
     void quit();
 
-    sf::RenderWindow* window;
+    shared_ptr<sf::RenderWindow> window;
 
 private:
     vector< shared_ptr<GameState> > _states;
