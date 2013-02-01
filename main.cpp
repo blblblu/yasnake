@@ -7,8 +7,6 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-  cout << "Hello World"<< endl;
-
   GameEngine game(sf::VideoMode(800, 600), "TowerDefense");
 
   game.changeState(new IntroState());

@@ -3,8 +3,6 @@
 
 #include "gameengine.h"
 
-using namespace std;
-
 class GameEngine;
 
 class GameState

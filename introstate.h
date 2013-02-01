@@ -3,8 +3,6 @@
 
 #include "gamestate.h"
 
-using namespace std;
-
 class IntroState : public GameState
 {
 public:

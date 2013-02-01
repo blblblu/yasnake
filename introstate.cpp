@@ -26,22 +26,22 @@ IntroState::IntroState()
     this->_keyboardCommands.setColor(sf::Color(38, 139, 210));
     this->_keyboardCommands.setPosition(sf::Vector2f(30, 530));
 
-    cout << "[IntroState] Initialization" << endl;
+    std::cout << "[IntroState] Initialization" << std::endl;
 }
 
 IntroState::~IntroState()
 {
-    cout << "[IntroState] Cleanup" << endl;
+    std::cout << "[IntroState] Cleanup" << std::endl;
 }
 
 void IntroState::pause()
 {
-    cout << "[IntroState] Pause" << endl;
+    std::cout << "[IntroState] Pause" << std::endl;
 }
 
 void IntroState::resume()
 {
-    cout << "[IntroState] Resume" << endl;
+    std::cout << "[IntroState] Resume" << std::endl;
 }
 
 void IntroState::handleEvent(GameEngine *game, sf::Event *event)
@@ -61,8 +61,8 @@ void IntroState::update(GameEngine *game)
 
 void IntroState::draw(GameEngine *game)
 {
-    game->window->clear(sf::Color(253, 246, 227));
-    game->window->draw(this->_title);
-    game->window->draw(this->_name);
-    game->window->draw(this->_keyboardCommands);
+    game->window.clear(sf::Color(253, 246, 227));
+    game->window.draw(this->_title);
+    game->window.draw(this->_name);
+    game->window.draw(this->_keyboardCommands);
 }

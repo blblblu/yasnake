@@ -1,14 +1,10 @@
 #include "gameengine.h"
 
-GameEngine::GameEngine(sf::VideoMode videoMode, const string &title)
+GameEngine::GameEngine(sf::VideoMode videoMode, const std::string &title) : view(sf::Vector2f(400, 300), sf::Vector2f(800, 600)), window(videoMode, title)
 {
-    // SFML-Fenster erstellen
-    this->window = shared_ptr<sf::RenderWindow>(new sf::RenderWindow(videoMode, title, sf::Style::Close));
+    this->window.setView(this->view);
 
-    this->view = shared_ptr<sf::View>(new sf::View(sf::Vector2f(400, 300), sf::Vector2f(800, 600)));
-    this->window->setView(*this->view);
-
-    cout << "[GameEngine] Initialization" << endl;
+    std::cout << "[GameEngine] Initialization" << std::endl;
 }
 
 GameEngine::~GameEngine()
@@ -19,7 +15,7 @@ GameEngine::~GameEngine()
         this->_states.pop_back();
     }
 
-    cout << "[GameEngine] Cleanup" << endl;
+    std::cout << "[GameEngine] Cleanup" << std::endl;
 }
 
 void GameEngine::changeState(GameState *state)
@@ -31,7 +27,7 @@ void GameEngine::changeState(GameState *state)
     }
 
     // neuen Gamestate einfügen
-    this->_states.push_back(shared_ptr<GameState>(state));
+    this->_states.push_back(std::shared_ptr<GameState>(state));
 }
 
 void GameEngine::pushState(GameState *state)
@@ -43,7 +39,7 @@ void GameEngine::pushState(GameState *state)
     }
 
     // neuen Gamestate einfügen
-    this->_states.push_back(shared_ptr<GameState>(state));
+    this->_states.push_back(std::shared_ptr<GameState>(state));
 }
 
 void GameEngine::popState()
@@ -64,10 +60,10 @@ void GameEngine::popState()
 void GameEngine::handleEvents()
 {
     sf::Event event;
-    while (this->window->pollEvent(event))
+    while (this->window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
-            this->window->close();
+            this->window.close();
         this->_states.back()->handleEvent(this, &event);
     }
 }
@@ -79,17 +75,17 @@ void GameEngine::update()
 
 void GameEngine::draw()
 {
-    this->window->clear(sf::Color(0,0,0));
+    this->window.clear(sf::Color(0,0,0));
     this->_states.back()->draw(this);
-    this->window->display();
+    this->window.display();
 }
 
 bool GameEngine::running()
 {
-    return this->window->isOpen();
+    return this->window.isOpen();
 }
 
 void GameEngine::quit()
 {
-    this->window->close();
+    this->window.close();
 }

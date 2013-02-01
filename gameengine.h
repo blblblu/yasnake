@@ -11,14 +11,12 @@
 
 #include "gamestate.h"
 
-using namespace std;
-
 class GameState;
 
 class GameEngine
 {
 public:
-    GameEngine(sf::VideoMode videoMode, const string &title);
+    GameEngine(sf::VideoMode videoMode, const std::string &title);
     ~GameEngine();
 
     void changeState(GameState *state);
@@ -32,11 +30,11 @@ public:
     bool running();
     void quit();
 
-    shared_ptr<sf::View> view;
-    shared_ptr<sf::RenderWindow> window;
+    sf::View view;
+    sf::RenderWindow window;
 
 private:
-    vector< shared_ptr<GameState> > _states;
+    std::vector< std::shared_ptr<GameState> > _states;
 };
 
 #endif // GAMEENGINE_H
