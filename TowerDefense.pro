@@ -5,12 +5,14 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     gameengine.cpp \
-    introstate.cpp
+    introstate.cpp \
+    matchstate.cpp
 
 HEADERS += \
     gameengine.h \
     gamestate.h \
-    introstate.h
+    introstate.h \
+    matchstate.h
 
 QMAKE_CXXFLAGS += -std=c++0x
 
@@ -18,7 +20,7 @@ OTHER_FILES += \
     intro.svg \
     intro.png \
     SourceSansPro-Light.ttf \
-    SourceSansPro-Light.ttf
+    todo.txt
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/sfml-build/lib/release/ -lsfml-system

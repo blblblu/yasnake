@@ -1,7 +1,9 @@
 #ifndef GAMEENGINE_H
 #define GAMEENGINE_H
 
+#include <exception>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -19,22 +21,26 @@ public:
     GameEngine(sf::VideoMode videoMode, const std::string &title);
     ~GameEngine();
 
-    void changeState(GameState *state);
-    void pushState(GameState *state);
+    void addState(const std::string &id, GameState *state);
+
+    void changeState(const std::string id);
+    void pushState(const std::string id);
     void popState();
 
     void handleEvents();
     void update();
     void draw();
 
-    bool running();
-    void quit();
+    bool isOpen();
+    void close();
+    void create(sf::VideoMode videoMode, const std::string &title);
 
     sf::View view;
     sf::RenderWindow window;
 
 private:
-    std::vector< std::shared_ptr<GameState> > _states;
+    std::map<std::string, std::shared_ptr<GameState> > _statesById;
+    std::vector<std::shared_ptr<GameState> > _activeStates;
 };
 
 #endif // GAMEENGINE_H
