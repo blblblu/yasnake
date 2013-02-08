@@ -2,20 +2,20 @@
 
 #include <SFML/Window.hpp>
 
-#include "gameengine.h"
+#include "game.h"
 #include "introstate.h"
 #include "matchstate.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    GameEngine game(sf::VideoMode(800, 600), "TowerDefense");
+    Game game(sf::VideoMode(800, 600), "TowerDefense");
 
     // vorhandene Gamestates dem Statemanager bekanntmachen
-    game.addState("IntroState", new IntroState());
-    game.addState("MatchState", new MatchState());
+    game.stateManager.addState("IntroState", new IntroState());
+    game.stateManager.addState("MatchState", new MatchState());
 
-    game.changeState("IntroState");
+    game.stateManager.changeState("IntroState", game.window);
 
     while(game.isOpen())
     {

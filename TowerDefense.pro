@@ -4,21 +4,22 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    gameengine.cpp \
     introstate.cpp \
-    matchstate.cpp
+    matchstate.cpp \
+    statemanager.cpp \
+    game.cpp
 
 HEADERS += \
-    gameengine.h \
     gamestate.h \
     introstate.h \
-    matchstate.h
+    matchstate.h \
+    statemanager.h \
+    game.h \
+    statechange.h
 
 QMAKE_CXXFLAGS += -std=c++0x
 
 OTHER_FILES += \
-    intro.svg \
-    intro.png \
     SourceSansPro-Light.ttf \
     todo.txt
 
@@ -40,5 +41,5 @@ unix:!mac{
   QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
   QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
   QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/libs
-  QMAKE_RPATH=
+  QMAKE_LFLAGS_RPATH=
 }

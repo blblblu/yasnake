@@ -11,7 +11,7 @@ IntroState::~IntroState()
     std::cout << "[IntroState] cleanup" << std::endl;
 }
 
-void IntroState::start()
+void IntroState::start(sf::RenderWindow &window)
 {
     std::cout << "[IntroState] start" << std::endl;
 
@@ -34,6 +34,9 @@ void IntroState::start()
     this->_debug->setColor(sf::Color(0, 0, 0));
     this->_debug->setPosition(sf::Vector2f(0, 0));
 
+    // View zurücksetzen
+    this->resize(window);
+
     this->_isActive = true;
 }
 
@@ -48,56 +51,57 @@ void IntroState::stop()
     this->_isActive = false;
 }
 
-void IntroState::pause()
+void IntroState::pause(sf::RenderWindow &window)
 {
     std::cout << "[IntroState] pause" << std::endl;
 
     this->_isPaused = true;
 }
 
-void IntroState::resume()
+void IntroState::resume(sf::RenderWindow &window)
 {
     std::cout << "[IntroState] resume" << std::endl;
+
+    // View zurücksetzen lassen
+    this->resize(window);
 
     this->_isPaused = false;
 }
 
-void IntroState::handleEvent(GameEngine *game, sf::Event *event)
+void IntroState::handleEvent(Game *game, const sf::Event &event)
 {
-    switch(event->type)
+    switch(event.type)
     {
     case sf::Event::KeyPressed:
-        if(event->key.code == sf::Keyboard::Q)
+        if(event.key.code == sf::Keyboard::Q)
             game->close();
-        if(event->key.code == sf::Keyboard::N)
-            game->pushState("MatchState");
+        if(event.key.code == sf::Keyboard::N)
+            game->stateManager.pushState("MatchState", game->window);
         break;
     }
 }
 
-void IntroState::resize(GameEngine *game)
+void IntroState::resize(sf::RenderWindow &window)
 {
-    game->view.setSize(game->window.getSize().x, game->window.getSize().y);
-    game->view.setCenter(game->window.getSize().x / 2, game->window.getSize().y / 2);
-    game->window.setView(game->view);
+    window.setView(sf::View(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), sf::Vector2f(window.getSize().x, window.getSize().y)));
 
     std::ostringstream tmp;
-    tmp << game->window.getSize().x << "/" << game->window.getSize().y;
+    tmp << window.getSize().x << "/" << window.getSize().y;
     this->_debug->setString(tmp.str());
 
-    this->_keyboardCommands->setPosition(30, game->window.getSize().y - 90);
+    this->_keyboardCommands->setPosition(30, window.getSize().y - 90);
 }
 
-void IntroState::update(GameEngine *game)
+void IntroState::update(Game *game)
 {
 }
 
-void IntroState::draw(GameEngine *game, sf::RenderTarget *renderTarget)
+void IntroState::draw(sf::RenderTarget &renderTarget)
 {
-    renderTarget->clear(sf::Color(253, 246, 227));
-    renderTarget->draw(*this->_title);
-    renderTarget->draw(*this->_name);
-    renderTarget->draw(*this->_keyboardCommands);
+    renderTarget.clear(sf::Color(253, 246, 227));
+    renderTarget.draw(*this->_title);
+    renderTarget.draw(*this->_name);
+    renderTarget.draw(*this->_keyboardCommands);
 
-    renderTarget->draw(*this->_debug);
+    renderTarget.draw(*this->_debug);
 }
