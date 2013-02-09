@@ -1,7 +1,7 @@
 #include "introstate.h"
 #include <sstream>
 
-IntroState::IntroState()
+IntroState::IntroState(sf::RenderTarget *renderTarget) : GameState(renderTarget)
 {
     std::cout << "[IntroState] initialization" << std::endl;
 }
@@ -11,7 +11,7 @@ IntroState::~IntroState()
     std::cout << "[IntroState] cleanup" << std::endl;
 }
 
-void IntroState::start(sf::RenderWindow &window)
+void IntroState::start()
 {
     std::cout << "[IntroState] start" << std::endl;
 
@@ -34,9 +34,6 @@ void IntroState::start(sf::RenderWindow &window)
     this->_debug->setColor(sf::Color(0, 0, 0));
     this->_debug->setPosition(sf::Vector2f(0, 0));
 
-    // View zurücksetzen
-    this->resize(window);
-
     this->_isActive = true;
 }
 
@@ -44,55 +41,52 @@ void IntroState::stop()
 {
     std::cout << "[IntroState] stop" << std::endl;
 
-    this->_title = nullptr;
-    this->_name = nullptr;
-    this->_keyboardCommands = nullptr;
+    this->_title.reset();
+    this->_name.reset();
+    this->_keyboardCommands.reset();
 
     this->_isActive = false;
 }
 
-void IntroState::pause(sf::RenderWindow &window)
+void IntroState::pause()
 {
     std::cout << "[IntroState] pause" << std::endl;
 
     this->_isPaused = true;
 }
 
-void IntroState::resume(sf::RenderWindow &window)
+void IntroState::resume()
 {
     std::cout << "[IntroState] resume" << std::endl;
-
-    // View zurücksetzen lassen
-    this->resize(window);
 
     this->_isPaused = false;
 }
 
-void IntroState::handleEvent(Game *game, const sf::Event &event)
+void IntroState::handleEvent(const sf::Event &event)
 {
     switch(event.type)
     {
     case sf::Event::KeyPressed:
         if(event.key.code == sf::Keyboard::Q)
-            game->close();
+            this->changeState(StateChangeType::PopState);
         if(event.key.code == sf::Keyboard::N)
-            game->stateManager.pushState("MatchState", game->window);
+            this->changeState(StateChangeType::PushState, "MatchState");
         break;
     }
 }
 
-void IntroState::resize(sf::RenderWindow &window)
+sf::View IntroState::resize(const unsigned int x, const unsigned int y)
 {
-    window.setView(sf::View(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2), sf::Vector2f(window.getSize().x, window.getSize().y)));
-
     std::ostringstream tmp;
-    tmp << window.getSize().x << "/" << window.getSize().y;
+    tmp << x << "/" << y;
     this->_debug->setString(tmp.str());
 
-    this->_keyboardCommands->setPosition(30, window.getSize().y - 90);
+    this->_keyboardCommands->setPosition(30, y - 90);
+
+    return sf::View(sf::Vector2f(x / 2, y / 2), sf::Vector2f(x, y));
 }
 
-void IntroState::update(Game *game)
+void IntroState::update()
 {
 }
 

@@ -1,26 +1,26 @@
 #ifndef INTROSTATE_H
 #define INTROSTATE_H
 
+#include <iostream>
 #include <memory>
 
-#include "game.h"
 #include "gamestate.h"
 
 class IntroState : public GameState
 {
 public:
-    IntroState();
+    IntroState(sf::RenderTarget *renderTarget);
     ~IntroState();
 
-    void start(sf::RenderWindow &window);
+    void start();
     void stop();
 
-    void pause(sf::RenderWindow &window);
-    void resume(sf::RenderWindow &window);
+    void pause();
+    void resume();
 
-    void handleEvent(Game *game, const sf::Event &event);
-    void resize(sf::RenderWindow &window);
-    void update(Game *game);
+    void handleEvent(const sf::Event &event);
+    sf::View resize(const unsigned int x, const unsigned int y);
+    void update();
     void draw(sf::RenderTarget &renderTarget);
 
 private:

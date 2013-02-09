@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     introstate.cpp \
     matchstate.cpp \
     statemanager.cpp \
-    game.cpp
+    game.cpp \
+    gamestate.cpp
 
 HEADERS += \
     gamestate.h \
@@ -15,7 +16,8 @@ HEADERS += \
     matchstate.h \
     statemanager.h \
     game.h \
-    statechange.h
+    statechangetype.h \
+    inttostring.h
 
 QMAKE_CXXFLAGS += -std=c++0x
 
@@ -33,6 +35,9 @@ else:unix: LIBS += -L$$PWD/sfml-build/lib/ -lsfml-window
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/sfml-build/lib/release/ -lsfml-graphics
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/sfml-build/lib/debug/ -lsfml-graphics
 else:unix: LIBS += -L$$PWD/sfml-build/lib/ -lsfml-graphics
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/sfml-build/lib/release/ -lsfml-audio
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/sfml-build/lib/debug/ -lsfml-audio
+else:unix: LIBS += -L$$PWD/sfml-build/lib/ -lsfml-audio
 
 INCLUDEPATH += $$PWD/sfml/include
 DEPENDPATH += $$PWD/sfml/include

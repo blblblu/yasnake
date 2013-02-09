@@ -1,35 +1,45 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
-#include <iostream>
+#include <string>
 
 #include <SFML/Graphics.hpp>
 
-class Game;
+#include "statechangetype.h"
 
 class GameState
 {
 public:
-    GameState(){}
+    GameState(sf::RenderTarget *renderTarget);
     virtual ~GameState(){}
 
-    virtual void start(sf::RenderWindow &window) = 0;
+    virtual void start() = 0;
     virtual void stop() = 0;
 
-    virtual void pause(sf::RenderWindow &window) = 0;
-    virtual void resume(sf::RenderWindow &window) = 0;
+    virtual void pause() = 0;
+    virtual void resume() = 0;
 
-    virtual void handleEvent(Game *game, const sf::Event &event) = 0;
-    virtual void resize(sf::RenderWindow &window) = 0;
-    virtual void update(Game *game) = 0;
+    virtual void handleEvent(const sf::Event &event) = 0;
+    virtual sf::View resize(const unsigned int x, const unsigned int y) = 0;
+    virtual void update() = 0;
     virtual void draw(sf::RenderTarget &renderTarget) = 0;
 
-    bool isActive(){ return this->_isActive; }
-    bool isPaused(){ return this->_isPaused; }
+    bool isActive();
+    bool isPaused();
+
+    bool stateChange(int &stateChangeType, std::string &nextState);
 
 protected:
+    void changeState(const unsigned int stateChangeType, const std::string &nextState = "");
+
     bool _isActive;
     bool _isPaused;
+
+    sf::RenderTarget *_renderTarget;
+
+private:
+    unsigned int _stateChangeType;
+    std::string _nextState;
 };
 
 #endif // GAMESTATE_H

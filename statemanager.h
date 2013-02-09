@@ -1,10 +1,10 @@
 #ifndef STATEMANAGER_H
 #define STATEMANAGER_H
 
-#include <exception>
 #include <iostream>
 #include <map>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -20,15 +20,16 @@ public:
 
     void addState(const std::string &id, GameState *state);
 
-    void changeState(const std::string id, sf::RenderWindow &window);
-    void pushState(const std::string id, sf::RenderWindow &window);
-    void popState(sf::RenderWindow &window);
+    void replaceState(const std::string id);
+    void pushState(const std::string id);
+    void popState();
 
-    std::shared_ptr<GameState> back();
+    GameState* backActive();
+    bool emptyActive();
 
 private:
-    std::map<std::string, std::shared_ptr<GameState> > _statesById;
-    std::vector<std::shared_ptr<GameState> > _activeStates;
+    std::map<std::string, std::unique_ptr<GameState> > _statesById;
+    std::vector<GameState*> _activeStates;
 };
 
 #endif // STATEMANAGER_H
