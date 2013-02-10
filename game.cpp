@@ -96,7 +96,7 @@ void Game::update()
 
 void Game::draw()
 {
-    this->window.clear(sf::Color(0,0,0));
+    this->window.clear(sf::Color(0, 0, 0));
     this->_stateManager.backActive()->draw(this->window);
     this->window.display();
 }

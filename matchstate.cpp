@@ -22,10 +22,18 @@ void MatchState::start()
 
     this->_additionalTime = std::unique_ptr<sf::Time>(new sf::Time());
 
-    this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
-    this->_field->setFillColor(sf::Color(238, 232, 213));
-    this->_field->setOutlineColor(sf::Color(181, 137, 0));
-    this->_field->setOutlineThickness(2);
+    //this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
+    // TODO
+    this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(1920, 1080)));
+    this->_field->setFillColor(sf::Color(253, 246, 227));
+    //this->_field->setOutlineColor(sf::Color(181, 137, 0));
+    //this->_field->setOutlineThickness(10);
+
+    this->_square = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(100, 100)));
+    this->_square->setFillColor(sf::Color(253, 246, 227));
+    this->_square->setOutlineColor(sf::Color(181, 137, 0));
+    this->_square->setOutlineThickness(10);
+    this->_square->setPosition(910, 490);
 
     this->_time = std::unique_ptr<sf::Text>(new sf::Text("", *this->_sourceSansPro, 40));
     this->_time->setColor(sf::Color(42, 161, 152));
@@ -85,9 +93,29 @@ void MatchState::handleEvent(const sf::Event &event)
 
 sf::View MatchState::resize(const unsigned int x, const unsigned int y)
 {
-    return sf::View(sf::Vector2f(350, 200), sf::Vector2f(x, y));
+    //return sf::View(sf::Vector2f(350, 200), sf::Vector2f(x, y));
+
     //return sf::View(sf::Vector2f(350, 200), sf::Vector2f(800, 600));
+
     // TODO remove...
+
+//    unsigned int height = (1920 * y) / x;
+//    unsigned int displace = (height - 1080) / (-2);
+//    return sf::View(sf::FloatRect(0, displace, 1920, height));
+
+
+    // (1920 / 2) = 960
+    // (1080 / 2) = 540
+    if((static_cast<float>(x) / static_cast<float>(y)) <= (16.f / 9.f))
+    {
+        float z = (960.f * y) / x - 540.f;
+        return sf::View(sf::Vector2f(960, 540), sf::Vector2f(1920, (1080 + (2 * z))));
+    }
+    else
+    {
+        float z = (540.f * x) / y - 960.f;
+        return sf::View(sf::Vector2f(960, 540), sf::Vector2f((1920 + (2 * z)), 1080));
+    }
 }
 
 void MatchState::update()
@@ -97,7 +125,8 @@ void MatchState::update()
 
 void MatchState::draw(sf::RenderTarget &renderTarget)
 {
-    renderTarget.clear(sf::Color(253, 246, 227));
+    //renderTarget.clear(sf::Color(253, 246, 227));
     renderTarget.draw(*this->_field);
     renderTarget.draw(*this->_time);
+    renderTarget.draw(*this->_square);
 }

@@ -34,6 +34,7 @@ private:
 
     std::unique_ptr<sf::RectangleShape> _field;
     std::unique_ptr<sf::Text> _time;
+    std::unique_ptr<sf::RectangleShape> _square;
 };
 
 #endif // MATCHSTATE_H
