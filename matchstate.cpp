@@ -37,7 +37,7 @@ void MatchState::start()
 
     this->_time = std::unique_ptr<sf::Text>(new sf::Text("", *this->_sourceSansPro, 40));
     this->_time->setColor(sf::Color(42, 161, 152));
-    this->_time->setPosition(sf::Vector2f(0, -45));
+    this->_time->setPosition(sf::Vector2f(30, 30));
 
     this->_isActive = true;
 }
@@ -120,7 +120,13 @@ sf::View MatchState::resize(const unsigned int x, const unsigned int y)
 
 void MatchState::update()
 {
-    this->_time->setString(intToString((this->_clock->getElapsedTime() + *this->_additionalTime).asSeconds()));
+    //this->_time->setString(intToString((this->_clock->getElapsedTime() + *this->_additionalTime).asSeconds()));
+    this->_square->move(sf::Vector2f(100.f * this->_clock->getElapsedTime().asSeconds(), 0));
+    // little dirty fps hack...
+
+    this->_time->setString(intToString(1.f / this->_clock->getElapsedTime().asSeconds()));
+
+    this->_clock->restart();
 }
 
 void MatchState::draw(sf::RenderTarget &renderTarget)
