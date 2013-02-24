@@ -24,10 +24,10 @@ void MatchState::start()
 
     //this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
     // TODO
-    this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(1280, 720)));
+    this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(1200, 700)));
     this->_field->setFillColor(sf::Color(253, 246, 227));
-    //this->_field->setOutlineColor(sf::Color(181, 137, 0));
-    //this->_field->setOutlineThickness(10);
+    this->_field->setOutlineColor(sf::Color(181, 137, 0));
+    this->_field->setOutlineThickness(2);
 
     this->_square = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(100, 100)));
     this->_square->setFillColor(sf::Color(253, 246, 227));
@@ -112,12 +112,12 @@ sf::View MatchState::resize(const unsigned int x, const unsigned int y)
     if((static_cast<float>(x) / static_cast<float>(y)) <= (16.f / 9.f))
     {
         float z = (640.f * y) / x - 360.f;
-        return sf::View(sf::Vector2f(640, 360), sf::Vector2f(1280, (720 + (2 * z))));
+        return sf::View(sf::Vector2f(600, 350), sf::Vector2f(1280, (720 + (2 * z))));
     }
     else
     {
         float z = (360.f * x) / y - 640.f;
-        return sf::View(sf::Vector2f(640, 360), sf::Vector2f((1280 + (2 * z)), 720));
+        return sf::View(sf::Vector2f(600, 350), sf::Vector2f((1280 + (2 * z)), 720));
     }
 }
 
@@ -134,7 +134,7 @@ void MatchState::update()
 
 void MatchState::draw(sf::RenderTarget &renderTarget)
 {
-    //renderTarget.clear(sf::Color(253, 246, 227));
+    renderTarget.clear(sf::Color(253, 246, 227));
     renderTarget.draw(*this->_field);
     renderTarget.draw(*this->_time);
     renderTarget.draw(*this->_square);

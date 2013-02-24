@@ -8,7 +8,8 @@ SOURCES += main.cpp \
     matchstate.cpp \
     statemanager.cpp \
     game.cpp \
-    gamestate.cpp
+    gamestate.cpp \
+    gameentity.cpp
 
 HEADERS += \
     gamestate.h \
@@ -17,7 +18,8 @@ HEADERS += \
     statemanager.h \
     game.h \
     statechangetype.h \
-    inttostring.h
+    inttostring.h \
+    gameentity.h
 
 QMAKE_CXXFLAGS += -std=c++0x
 
