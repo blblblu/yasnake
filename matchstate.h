@@ -33,6 +33,7 @@ private:
     std::unique_ptr<sf::Time> _additionalTime;
 
     std::unique_ptr<sf::RectangleShape> _field;
+    std::vector<sf::RectangleShape> _fieldPoints;
     std::unique_ptr<sf::Text> _time;
     std::unique_ptr<sf::RectangleShape> _square;
 };

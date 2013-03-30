@@ -9,7 +9,7 @@ SOURCES += main.cpp \
     statemanager.cpp \
     game.cpp \
     gamestate.cpp \
-    gameentity.cpp
+    enemyentity.cpp
 
 HEADERS += \
     gamestate.h \
@@ -19,7 +19,7 @@ HEADERS += \
     game.h \
     statechangetype.h \
     inttostring.h \
-    gameentity.h
+    enemyentity.h
 
 QMAKE_CXXFLAGS += -std=c++0x
 
