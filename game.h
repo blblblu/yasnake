@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "debugoutput.h"
 #include "introstate.h"
 #include "matchstate.h"
 #include "statemanager.h"

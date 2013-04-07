@@ -3,17 +3,17 @@
 
 IntroState::IntroState(sf::RenderTarget *renderTarget) : GameState(renderTarget)
 {
-    std::cout << "[IntroState] initialization" << std::endl;
+    DebugOutput::gameState("IntroState", "");
 }
 
 IntroState::~IntroState()
 {
-    std::cout << "[IntroState] cleanup" << std::endl;
+    DebugOutput::gameState("IntroState", "cleanup");
 }
 
 void IntroState::start()
 {
-    std::cout << "[IntroState] start" << std::endl;
+    DebugOutput::gameState("IntroState", "start");
 
     this->_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
     this->_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
@@ -39,7 +39,7 @@ void IntroState::start()
 
 void IntroState::stop()
 {
-    std::cout << "[IntroState] stop" << std::endl;
+    DebugOutput::gameState("IntroState", "stop");
 
     this->_title.reset();
     this->_name.reset();
@@ -50,14 +50,14 @@ void IntroState::stop()
 
 void IntroState::pause()
 {
-    std::cout << "[IntroState] pause" << std::endl;
+    DebugOutput::gameState("IntroState", "pause");
 
     this->_isPaused = true;
 }
 
 void IntroState::resume()
 {
-    std::cout << "[IntroState] resume" << std::endl;
+    DebugOutput::gameState("IntroState", "resume");
 
     this->_isPaused = false;
 }

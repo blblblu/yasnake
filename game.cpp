@@ -2,7 +2,7 @@
 
 Game::Game(sf::VideoMode videoMode, const std::string &title)
 {
-    std::cout << "[Game] initialization" << std::endl;
+    DebugOutput::game("initialization");
     this->create(videoMode, title);
 
     // vorhandene Gamestates dem Statemanager bekanntmachen
@@ -17,19 +17,19 @@ Game::Game(sf::VideoMode videoMode, const std::string &title)
 
 Game::~Game()
 {
-    std::cout << "[Game] cleanup" << std::endl;
+    DebugOutput::game("cleanup");
 }
 
 void Game::create(sf::VideoMode videoMode, const std::string &title)
 {
-    std::cout << "[Game] create" << std::endl;
+    DebugOutput::game("create");
 
     this->window.create(videoMode, title);
 }
 
 void Game::close()
 {
-    std::cout << "[Game] close" << std::endl;
+    DebugOutput::game("close");
     this->window.close();
 }
 

@@ -9,7 +9,8 @@ SOURCES += main.cpp \
     statemanager.cpp \
     game.cpp \
     gamestate.cpp \
-    enemyentity.cpp
+    enemyentity.cpp \
+    littleenemyentity.cpp
 
 HEADERS += \
     gamestate.h \
@@ -19,13 +20,17 @@ HEADERS += \
     game.h \
     statechangetype.h \
     inttostring.h \
-    enemyentity.h
+    enemyentity.h \
+    colorcodes.h \
+    debugoutput.h \
+    littleenemyentity.h
 
 QMAKE_CXXFLAGS += -std=c++0x
 
 OTHER_FILES += \
     SourceSansPro-Light.ttf \
-    todo.txt
+    todo.txt \
+    Farbcodes.txt
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/sfml-build/lib/release/ -lsfml-system

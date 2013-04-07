@@ -1,0 +1,4 @@
+Game: GREEN
+GameEntity: YELLOW
+GameState: CYAN
+StateManager: BLUE

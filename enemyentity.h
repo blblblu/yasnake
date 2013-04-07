@@ -1,7 +1,6 @@
 #ifndef ENEMYENTITY_H
 #define ENEMYENTITY_H
 
-#include <memory>
 #include <string>
 
 #include <SFML/Graphics.hpp>
@@ -9,12 +8,17 @@
 class EnemyEntity : public sf::Drawable
 {
 public:
-    EnemyEntity();
+    EnemyEntity(const sf::Vector2f &position, const sf::Font &font);
+    virtual ~EnemyEntity(){}
+
+    //virtual void attacked(int damage) = 0;
 
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-
+protected:
+    sf::RectangleShape _shape;
+    sf::Text _text;
 };
 
 #endif // ENEMYENTITY_H

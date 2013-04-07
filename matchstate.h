@@ -6,8 +6,10 @@
 
 #include <SFML/System.hpp>
 
+#include "enemyentity.h"
 #include "gamestate.h"
 #include "inttostring.h"
+#include "littleenemyentity.h"
 
 class MatchState : public GameState
 {
@@ -36,6 +38,8 @@ private:
     std::vector<sf::RectangleShape> _fieldPoints;
     std::unique_ptr<sf::Text> _time;
     std::unique_ptr<sf::RectangleShape> _square;
+
+    std::vector<EnemyEntity> _enemies;
 };
 
 #endif // MATCHSTATE_H

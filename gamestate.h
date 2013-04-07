@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "debugoutput.h"
 #include "statechangetype.h"
 
 class GameState

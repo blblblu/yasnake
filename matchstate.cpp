@@ -2,17 +2,17 @@
 
 MatchState::MatchState(sf::RenderTarget *renderTarget) : GameState(renderTarget)
 {
-    std::cout << "[MatchState] initialization" << std::endl;
+    DebugOutput::gameState("MatchState", "initialization");
 }
 
 MatchState::~MatchState()
 {
-    std::cout << "[MatchState] cleanup" << std::endl;
+    DebugOutput::gameState("MatchState", "cleanup");
 }
 
 void MatchState::start()
 {
-    std::cout << "[MatchState] start" << std::endl;
+    DebugOutput::gameState("MatchState", "start");
 
     this->_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
     this->_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
@@ -41,22 +41,22 @@ void MatchState::start()
         }
     }
 
-    this->_square = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(100, 100)));
-    this->_square->setFillColor(sf::Color(253, 246, 227));
-    this->_square->setOutlineColor(sf::Color(181, 137, 0));
-    this->_square->setOutlineThickness(10);
-    this->_square->setPosition(30, 30);
+    this->_square = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(64, 64)));
+    this->_square->setFillColor(sf::Color(147, 161, 161));
+    this->_square->setPosition(64, 64);
 
     this->_time = std::unique_ptr<sf::Text>(new sf::Text("", *this->_sourceSansPro, 40));
     this->_time->setColor(sf::Color(42, 161, 152));
     this->_time->setPosition(sf::Vector2f(30, 30));
+
+    this->_enemies.push_back(LittleEnemyEntity(sf::Vector2f(32, 32), *this->_sourceSansPro));
 
     this->_isActive = true;
 }
 
 void MatchState::stop()
 {
-    std::cout << "[MatchState] stop" << std::endl;
+    DebugOutput::gameState("MatchState", "stop");
 
     this->_sourceSansPro.reset();
     this->_clock.reset();
@@ -65,12 +65,14 @@ void MatchState::stop()
     this->_fieldPoints.clear();
     this->_time.reset();
 
+    this->_enemies.empty();
+
     this->_isActive = false;
 }
 
 void MatchState::pause()
 {
-    std::cout << "[MatchState] pause" << std::endl;
+    DebugOutput::gameState("MatchState", "pause");
 
     *this->_additionalTime += this->_clock->getElapsedTime();
 
@@ -79,7 +81,7 @@ void MatchState::pause()
 
 void MatchState::resume()
 {
-    std::cout << "[MatchState] resume" << std::endl;
+    DebugOutput::gameState("MatchState", "resume");
 
     this->_clock->restart();
 
@@ -143,7 +145,6 @@ sf::View MatchState::resize(const unsigned int x, const unsigned int y)
 void MatchState::update()
 {
     //this->_time->setString(intToString((this->_clock->getElapsedTime() + *this->_additionalTime).asSeconds()));
-    this->_square->move(sf::Vector2f(100.f * this->_clock->getElapsedTime().asSeconds(), 0));
     // little dirty fps hack...
 
     this->_time->setString(intToString(1.f / this->_clock->getElapsedTime().asSeconds()));
@@ -161,4 +162,8 @@ void MatchState::draw(sf::RenderTarget &renderTarget)
     }
     renderTarget.draw(*this->_time);
     renderTarget.draw(*this->_square);
+    for(sf::Drawable &d: this->_enemies)
+    {
+        renderTarget.draw(d);
+    }
 }

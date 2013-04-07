@@ -2,12 +2,12 @@
 
 StateManager::StateManager()
 {
-    std::cout << "[StateManager] initialization" << std::endl;
+    DebugOutput::stateManager("initialization");
 }
 
 StateManager::~StateManager()
 {
-    std::cout << "[StateManager] cleanup" << std::endl;
+    DebugOutput::stateManager("cleanup");
 
     // alle Gamestates löschen und entfernen
     while(!this->_activeStates.empty())
@@ -19,7 +19,7 @@ StateManager::~StateManager()
 
 void StateManager::addState(const std::string &id, GameState *state)
 {
-    std::cout << "[StateManager] addState" << std::endl;
+    DebugOutput::stateManager("addState");
 
     if(id.length() ==  0)
         throw std::runtime_error("Id must not be an empty string");
@@ -38,12 +38,12 @@ void StateManager::addState(const std::string &id, GameState *state)
 
     this->_statesById[id] = std::unique_ptr<GameState>(state);
 
-    std::cout << "[StateManager] state \"" << id << "\" added" << std::endl;
+    DebugOutput::stateManager("state \"" + id + "\" added");
 }
 
 void StateManager::replaceState(const std::string id)
 {
-    std::cout << "[StateManager] changeState" << std::endl;
+    DebugOutput::stateManager("changeState");
 
     // derzeitigen Gamestate aus Liste der aktiven Gamestates entfernen
     if(!this->_activeStates.empty())
@@ -69,12 +69,12 @@ void StateManager::replaceState(const std::string id)
     // neuen Gamestate starten
     this->_activeStates.back()->start();
 
-    std::cout << "[StateManager] changed active state to state \"" << id << "\"" << std::endl;
+    DebugOutput::stateManager("changed active state to state \"" + id + "\"");
 }
 
 void StateManager::pushState(const std::string id)
 {
-    std::cout << "[StateManager] pushState" << std::endl;
+    DebugOutput::stateManager("pushState");
 
     // derzeitigen Gamestate pausieren
     if(!this->_activeStates.empty())
@@ -97,12 +97,12 @@ void StateManager::pushState(const std::string id)
     // neuen Gamestate starten
     this->_activeStates.back()->start();
 
-    std::cout << "[StateManager] added state \"" << id << "\" as active state" << std::endl;
+    DebugOutput::stateManager("added state \"" + id + "\" as active state");
 }
 
 void StateManager::popState()
 {
-    std::cout << "[StateManager] popState" << std::endl;
+    DebugOutput::stateManager("popState");
 
     // derzeitigen Gamestate aus Liste der aktiven Gamestates entfernen
     if(!this->_activeStates.empty())
