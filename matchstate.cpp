@@ -65,7 +65,7 @@ void MatchState::stop()
     this->_fieldPoints.clear();
     this->_time.reset();
 
-    this->_enemies.empty();
+    this->_enemies.clear();
 
     this->_isActive = false;
 }
