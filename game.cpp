@@ -6,7 +6,7 @@ Game::Game(sf::VideoMode videoMode, const std::string &title)
     this->create(videoMode, title);
 
     // vorhandene Gamestates dem Statemanager bekanntmachen
-    this->_stateManager.addState("IntroState", new IntroState(&this->window));
+    this->_stateManager.addState("IntroState", new MenuState(&this->window));
     this->_stateManager.addState("MatchState", new MatchState(&this->window));
     this->_stateManager.pushState("IntroState");
 

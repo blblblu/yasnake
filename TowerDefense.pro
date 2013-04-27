@@ -4,17 +4,16 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    introstate.cpp \
     matchstate.cpp \
     statemanager.cpp \
     game.cpp \
     gamestate.cpp \
     enemyentity.cpp \
-    littleenemyentity.cpp
+    littleenemyentity.cpp \
+    menustate.cpp
 
 HEADERS += \
     gamestate.h \
-    introstate.h \
     matchstate.h \
     statemanager.h \
     game.h \
@@ -23,7 +22,8 @@ HEADERS += \
     enemyentity.h \
     colorcodes.h \
     debugoutput.h \
-    littleenemyentity.h
+    littleenemyentity.h \
+    menustate.h
 
 QMAKE_CXXFLAGS += -std=c++0x
 

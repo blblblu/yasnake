@@ -1,24 +1,24 @@
-#include "introstate.h"
+#include "menustate.h"
 #include <sstream>
 
-IntroState::IntroState(sf::RenderTarget *renderTarget) : GameState(renderTarget)
+MenuState::MenuState(sf::RenderTarget *renderTarget) : GameState(renderTarget)
 {
     DebugOutput::gameState("IntroState", "");
 }
 
-IntroState::~IntroState()
+MenuState::~MenuState()
 {
     DebugOutput::gameState("IntroState", "cleanup");
 }
 
-void IntroState::start()
+void MenuState::start()
 {
     DebugOutput::gameState("IntroState", "start");
 
     this->_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
     this->_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
 
-    this->_title = std::unique_ptr<sf::Text>(new sf::Text("TowerDefense", *this->_sourceSansPro, 40));
+    this->_title = std::unique_ptr<sf::Text>(new sf::Text("Yet Another Snake Clone", *this->_sourceSansPro, 40));
     this->_title->setColor(sf::Color(133, 153, 0));
     this->_title->setPosition(sf::Vector2f(30, 30));
 
@@ -37,7 +37,7 @@ void IntroState::start()
     this->_isActive = true;
 }
 
-void IntroState::stop()
+void MenuState::stop()
 {
     DebugOutput::gameState("IntroState", "stop");
 
@@ -48,21 +48,21 @@ void IntroState::stop()
     this->_isActive = false;
 }
 
-void IntroState::pause()
+void MenuState::pause()
 {
     DebugOutput::gameState("IntroState", "pause");
 
     this->_isPaused = true;
 }
 
-void IntroState::resume()
+void MenuState::resume()
 {
     DebugOutput::gameState("IntroState", "resume");
 
     this->_isPaused = false;
 }
 
-void IntroState::handleEvent(const sf::Event &event)
+void MenuState::handleEvent(const sf::Event &event)
 {
     switch(event.type)
     {
@@ -75,7 +75,7 @@ void IntroState::handleEvent(const sf::Event &event)
     }
 }
 
-sf::View IntroState::resize(const unsigned int x, const unsigned int y)
+sf::View MenuState::resize(const unsigned int x, const unsigned int y)
 {
     std::ostringstream tmp;
     tmp << x << "/" << y;
@@ -86,11 +86,11 @@ sf::View IntroState::resize(const unsigned int x, const unsigned int y)
     return sf::View(sf::Vector2f(x / 2, y / 2), sf::Vector2f(x, y));
 }
 
-void IntroState::update()
+void MenuState::update()
 {
 }
 
-void IntroState::draw(sf::RenderTarget &renderTarget)
+void MenuState::draw(sf::RenderTarget &renderTarget)
 {
     renderTarget.clear(sf::Color(253, 246, 227));
     renderTarget.draw(*this->_title);

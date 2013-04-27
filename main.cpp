@@ -3,8 +3,6 @@
 #include <SFML/Window.hpp>
 
 #include "game.h"
-#include "introstate.h"
-#include "matchstate.h"
 
 using namespace std;
 

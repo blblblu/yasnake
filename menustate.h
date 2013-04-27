@@ -1,16 +1,16 @@
-#ifndef INTROSTATE_H
-#define INTROSTATE_H
+#ifndef MENUSTATE_H
+#define MENUSTATE_H
 
 #include <iostream>
 #include <memory>
 
 #include "gamestate.h"
 
-class IntroState : public GameState
+class MenuState : public GameState
 {
 public:
-    IntroState(sf::RenderTarget *renderTarget);
-    ~IntroState();
+    MenuState(sf::RenderTarget *renderTarget);
+    ~MenuState();
 
     void start();
     void stop();
@@ -32,4 +32,4 @@ private:
     std::unique_ptr<sf::Text> _debug;
 };
 
-#endif // INTROSTATE_H
+#endif // MENUSTATE_H
