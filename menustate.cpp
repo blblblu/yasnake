@@ -3,17 +3,17 @@
 
 MenuState::MenuState(sf::RenderTarget *renderTarget) : GameState(renderTarget)
 {
-    DebugOutput::gameState("IntroState", "");
+    DebugOutput::gameState("MenuState", "");
 }
 
 MenuState::~MenuState()
 {
-    DebugOutput::gameState("IntroState", "cleanup");
+    DebugOutput::gameState("MenuState", "cleanup");
 }
 
 void MenuState::start()
 {
-    DebugOutput::gameState("IntroState", "start");
+    DebugOutput::gameState("MenuState", "start");
 
     this->_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
     this->_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
@@ -39,7 +39,7 @@ void MenuState::start()
 
 void MenuState::stop()
 {
-    DebugOutput::gameState("IntroState", "stop");
+    DebugOutput::gameState("MenuState", "stop");
 
     this->_title.reset();
     this->_name.reset();
@@ -50,14 +50,14 @@ void MenuState::stop()
 
 void MenuState::pause()
 {
-    DebugOutput::gameState("IntroState", "pause");
+    DebugOutput::gameState("MenuState", "pause");
 
     this->_isPaused = true;
 }
 
 void MenuState::resume()
 {
-    DebugOutput::gameState("IntroState", "resume");
+    DebugOutput::gameState("MenuState", "resume");
 
     this->_isPaused = false;
 }

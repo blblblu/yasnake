@@ -6,9 +6,11 @@ Game::Game(sf::VideoMode videoMode, const std::string &title)
     this->create(videoMode, title);
 
     // vorhandene Gamestates dem Statemanager bekanntmachen
-    this->_stateManager.addState("IntroState", new MenuState(&this->window));
+    this->_stateManager.addState("MenuState", new MenuState(&this->window));
     this->_stateManager.addState("MatchState", new MatchState(&this->window));
-    this->_stateManager.pushState("IntroState");
+
+    // Hauptmenü laden
+    this->_stateManager.pushState("MenuState");
 
 //    this->music.openFromFile("14 - ui.flac");
 //    this->music.setLoop(true);
