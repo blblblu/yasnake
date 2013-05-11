@@ -9,7 +9,7 @@
 class MenuState : public GameState
 {
 public:
-    MenuState(sf::RenderTarget *renderTarget);
+    MenuState();
     ~MenuState();
 
     void start();
@@ -24,12 +24,12 @@ public:
     void draw(sf::RenderTarget &renderTarget);
 
 private:
-    std::unique_ptr<sf::Font> _sourceSansPro;
-    std::unique_ptr<sf::Text> _title;
-    std::unique_ptr<sf::Text> _name;
-    std::unique_ptr<sf::Text> _keyboardCommands;
+    std::unique_ptr<sf::Font> m_sourceSansPro;
+    std::unique_ptr<sf::Text> m_title;
+    std::unique_ptr<sf::Text> m_name;
+    std::unique_ptr<sf::Text> m_keyboardCommands;
 
-    std::unique_ptr<sf::Text> _debug;
+    std::unique_ptr<sf::Text> m_debug;
 };
 
 #endif // MENUSTATE_H

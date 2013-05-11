@@ -15,22 +15,17 @@ namespace DebugOutput
 
     static inline void gameState(const std::string &text)
     {
-        std::cout << CYAN << BRIGHT << "[GameState]" << NORMAL << " " << text << std::endl;
+        std::cout << CYAN << BRIGHT << "    [GameState]" << NORMAL << " " << text << std::endl;
     }
 
     static inline void gameState(const std::string &state, const std::string &text)
     {
-        std::cout << CYAN << BRIGHT << "[GameState]" << NORMAL << " " << CYAN << "<" << state << ">" << NORMAL << " " << text << std::endl;
+        std::cout << CYAN << BRIGHT << "    [GameState]" << NORMAL << " " << CYAN << "<" << state << ">" << NORMAL << " " << text << std::endl;
     }
 
     static inline void stateManager(const std::string &text)
     {
-        std::cout << BLUE << BRIGHT << "[StateManager]" << NORMAL << " " << text << std::endl;
-    }
-
-    static inline void gameEntity(const std::string &text)
-    {
-        std::cout << YELLOW << BRIGHT << "[GameEntity]" << NORMAL << " " << text << std::endl;
+        std::cout << BLUE << BRIGHT << "  [StateManager]" << NORMAL << " " << text << std::endl;
     }
 }
 

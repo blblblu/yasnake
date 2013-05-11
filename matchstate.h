@@ -4,17 +4,15 @@
 #include <iostream>
 #include <memory>
 
+#include <boost/lexical_cast.hpp>
 #include <SFML/System.hpp>
 
-#include "enemyentity.h"
 #include "gamestate.h"
-#include "inttostring.h"
-#include "littleenemyentity.h"
 
 class MatchState : public GameState
 {
 public:
-    MatchState(sf::RenderTarget *renderTarget);
+    MatchState();
     ~MatchState();
 
     void start();
@@ -29,17 +27,15 @@ public:
     void draw(sf::RenderTarget &renderTarget);
 
 private:
-    std::unique_ptr<sf::Font> _sourceSansPro;
+    std::unique_ptr<sf::Font> m_sourceSansPro;
 
-    std::unique_ptr<sf::Clock> _clock;
-    std::unique_ptr<sf::Time> _additionalTime;
+    std::unique_ptr<sf::Clock> m_clock;
+    std::unique_ptr<sf::Time> m_additionalTime;
 
-    std::unique_ptr<sf::RectangleShape> _field;
-    std::vector<sf::RectangleShape> _fieldPoints;
-    std::unique_ptr<sf::Text> _time;
-    std::unique_ptr<sf::RectangleShape> _square;
-
-    std::vector<EnemyEntity> _enemies;
+    std::unique_ptr<sf::RectangleShape> m_field;
+    std::vector<sf::RectangleShape> m_fieldPoints;
+    std::unique_ptr<sf::Text> m_time;
+    std::unique_ptr<sf::RectangleShape> m_square;
 };
 
 #endif // MATCHSTATE_H

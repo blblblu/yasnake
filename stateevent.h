@@ -3,24 +3,28 @@
 
 #include <string>
 
+#include <boost/variant.hpp>
+
 class StateEvent
 {
 public:
     struct StateChangeEvent{
-        string name;
+        StateChangeEvent(){}
+        StateChangeEvent(std::string name) : name(name){}
+        std::string name;
     };
 
     enum EventType{
         ReplaceState,
         PushState,
-        PopState
+        PopState,
+
+        Count
     };
 
     EventType type;
 
-    union{
-        StateChangeEvent state;
-    };
+    boost::variant<StateChangeEvent> data;
 };
 
 #endif // STATEEVENT_H

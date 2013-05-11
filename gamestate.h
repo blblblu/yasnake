@@ -1,17 +1,19 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include <deque>
+#include <queue>
 #include <string>
 
 #include <SFML/Graphics.hpp>
 
 #include "debugoutput.h"
-#include "statechangetype.h"
+#include "stateevent.h"
 
 class GameState
 {
 public:
-    GameState(sf::RenderTarget *renderTarget);
+    GameState();
     virtual ~GameState(){}
 
     virtual void start() = 0;
@@ -28,19 +30,16 @@ public:
     bool isActive();
     bool isPaused();
 
-    bool stateChange(int &stateChangeType, std::string &nextState);
+    bool pollStateEvent(StateEvent &stateEvent);
 
 protected:
-    void changeState(const unsigned int stateChangeType, const std::string &nextState = "");
+    void addStateEvent(const StateEvent &stateEvent);
 
-    bool _isActive;
-    bool _isPaused;
-
-    sf::RenderTarget *_renderTarget;
+    bool m_isActive;
+    bool m_isPaused;
 
 private:
-    unsigned int _stateChangeType;
-    std::string _nextState;
+    std::queue<StateEvent> m_stateEvents;
 };
 
 #endif // GAMESTATE_H

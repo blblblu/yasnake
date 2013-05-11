@@ -29,8 +29,8 @@ public:
     bool emptyActive();
 
 private:
-    std::map<std::string, std::unique_ptr<GameState> > _statesById;
-    std::vector<GameState*> _activeStates;
+    std::map<std::string, std::unique_ptr<GameState> > m_statesById;
+    std::vector<GameState*> m_activeStates;
 };
 
 #endif // STATEMANAGER_H

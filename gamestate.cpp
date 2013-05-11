@@ -1,49 +1,33 @@
 #include "gamestate.h"
 
-GameState::GameState(sf::RenderTarget *renderTarget)
+GameState::GameState()
 {
-    this->_isActive = false;
-    this->_isPaused = false;
-
-    this->_stateChangeType = StateChangeType::None;
-
-    this->_renderTarget = renderTarget;
+    this->m_isActive = false;
+    this->m_isPaused = false;
 }
 
 bool GameState::isActive()
 {
-    return this->_isActive;
+    return this->m_isActive;
 }
 
 bool GameState::isPaused()
 {
-    return this->_isPaused;
+    return this->m_isPaused;
 }
 
-bool GameState::stateChange(int &stateChangeType, std::string &nextState)
+bool GameState::pollStateEvent(StateEvent &stateEvent)
 {
-    if(this->_stateChangeType == StateChangeType::None)
+    if(!this->m_stateEvents.empty())
     {
-        return false;
+        stateEvent = this->m_stateEvents.front();
+        this->m_stateEvents.pop();
     }
     else
-    {
-        stateChangeType = this->_stateChangeType;
-        nextState = this->_nextState;
-
-        this->_stateChangeType = StateChangeType::None;
-
-        return true;
-    }
+        return false;
 }
 
-void GameState::changeState(const unsigned int stateChangeType, const std::string &nextState)
+void GameState::addStateEvent(const StateEvent &stateEvent)
 {
-    // Überprüfung, ob stateChangeType ein korrekter StateChangeType-Wert ist und ggf. Exception werfen
-    if(stateChangeType >= StateChangeType::LAST)
-        throw std::exception();
-
-    this->_stateChangeType = stateChangeType;
-    this->_nextState = nextState;
+    this->m_stateEvents.push(stateEvent);
 }
-

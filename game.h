@@ -11,6 +11,7 @@
 #include "debugoutput.h"
 #include "menustate.h"
 #include "matchstate.h"
+#include "stateevent.h"
 #include "statemanager.h"
 
 class StateManager;
@@ -26,19 +27,16 @@ public:
 
     void loop();
 
-    void handleStateChange();
+    bool isOpen();
+
+private:
+    void handleStateEvents();
     void handleEvents();
     void update();
     void draw();
 
-    bool isOpen();
-
-    sf::RenderWindow window;
-
-    sf::Music music;
-
-private:
-    StateManager _stateManager;
+    StateManager m_stateManager;
+    sf::RenderWindow m_window;
 };
 
 #endif // GAME_H

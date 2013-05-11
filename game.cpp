@@ -6,15 +6,11 @@ Game::Game(sf::VideoMode videoMode, const std::string &title)
     this->create(videoMode, title);
 
     // vorhandene Gamestates dem Statemanager bekanntmachen
-    this->_stateManager.addState("MenuState", new MenuState(&this->window));
-    this->_stateManager.addState("MatchState", new MatchState(&this->window));
+    this->m_stateManager.addState("MenuState", new MenuState());
+    this->m_stateManager.addState("MatchState", new MatchState());
 
     // Hauptmenü laden
-    this->_stateManager.pushState("MenuState");
-
-//    this->music.openFromFile("14 - ui.flac");
-//    this->music.setLoop(true);
-//    this->music.play();
+    this->m_stateManager.pushState("MenuState");
 }
 
 Game::~Game()
@@ -26,84 +22,87 @@ void Game::create(sf::VideoMode videoMode, const std::string &title)
 {
     DebugOutput::game("create");
 
-    this->window.create(videoMode, title);
+    this->m_window.create(videoMode, title);
 }
 
 void Game::close()
 {
     DebugOutput::game("close");
-    this->window.close();
+    this->m_window.close();
 }
 
 void Game::loop()
 {
     // Fenster schließen, wenn kein GameState mehr aktiv ist
-    if(this->_stateManager.emptyActive())
+    if(this->m_stateManager.emptyActive())
         this->close();
     else
     {
+        // TODO: Reihenfolge berichtigen
         this->handleEvents();
         this->update();
         this->draw();
-        this->handleStateChange();
+        this->handleStateEvents();
     }
 }
 
-void Game::handleStateChange()
+bool Game::isOpen()
 {
-    int stateChangeType = StateChangeType::None;
-    std::string nextState = "";
-    if(this->_stateManager.backActive()->stateChange(stateChangeType, nextState))
+    return this->m_window.isOpen();
+}
+
+void Game::handleStateEvents()
+{
+    StateEvent stateEvent;
+    while(this->m_stateManager.backActive()->pollStateEvent(stateEvent))
     {
-        switch(stateChangeType)
+        switch(stateEvent.type)
         {
-        case StateChangeType::ReplaceState:
-            this->_stateManager.replaceState(nextState);
+        case StateEvent::ReplaceState:
+            this->m_stateManager.replaceState(boost::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
             // View zurücksetzen
-            this->window.setView(this->_stateManager.backActive()->resize(this->window.getSize().x, this->window.getSize().y));
+            this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
             break;
-        case StateChangeType::PushState:
-            this->_stateManager.pushState(nextState);
+        case StateEvent::PushState:
+            this->m_stateManager.pushState(boost::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
             // View zurücksetzen
-            this->window.setView(this->_stateManager.backActive()->resize(this->window.getSize().x, this->window.getSize().y));
+            this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
             break;
-        case StateChangeType::PopState:
-            this->_stateManager.popState();
+        case StateEvent::PopState:
+            this->m_stateManager.popState();
             // View zurücksetzen
-            if(!this->_stateManager.emptyActive())
-                this->window.setView(this->_stateManager.backActive()->resize(this->window.getSize().x, this->window.getSize().y));
+            if(!this->m_stateManager.emptyActive())
+                this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
             break;
         }
+        // Automatisch aufhören, sobald kein GameState mehr aktiv ist
+        if(this->m_stateManager.emptyActive())
+            break;
     }
 }
 
 void Game::handleEvents()
 {
     sf::Event event;
-    while (this->window.pollEvent(event))
+    while (this->m_window.pollEvent(event))
     {
         if(event.type == sf::Event::Closed)
-            this->window.close();
+            this->m_window.close();
         if(event.type == sf::Event::Resized)
-            this->window.setView(this->_stateManager.backActive()->resize(event.size.width, event.size.height));
+            this->m_window.setView(this->m_stateManager.backActive()->resize(event.size.width, event.size.height));
 
-        this->_stateManager.backActive()->handleEvent(event);
+        this->m_stateManager.backActive()->handleEvent(event);
     }
 }
 
 void Game::update()
 {
-    this->_stateManager.backActive()->update();
+    this->m_stateManager.backActive()->update();
 }
 
 void Game::draw()
 {
-    this->window.clear(sf::Color(0, 0, 0));
-    this->_stateManager.backActive()->draw(this->window);
-    this->window.display();
-}
-
-bool Game::isOpen()
-{
-    return this->window.isOpen();
+    this->m_window.clear(sf::Color(0, 0, 0));
+    this->m_stateManager.backActive()->draw(this->m_window);
+    this->m_window.display();
 }

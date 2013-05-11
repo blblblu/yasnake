@@ -1,6 +1,6 @@
 #include "matchstate.h"
 
-MatchState::MatchState(sf::RenderTarget *renderTarget) : GameState(renderTarget)
+MatchState::MatchState() : GameState()
 {
     DebugOutput::gameState("MatchState", "initialization");
 }
@@ -14,18 +14,18 @@ void MatchState::start()
 {
     DebugOutput::gameState("MatchState", "start");
 
-    this->_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
-    this->_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
+    this->m_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
+    this->m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
 
-    this->_clock = std::unique_ptr<sf::Clock>(new sf::Clock());
-    this->_clock->restart();
+    this->m_clock = std::unique_ptr<sf::Clock>(new sf::Clock());
+    this->m_clock->restart();
 
-    this->_additionalTime = std::unique_ptr<sf::Time>(new sf::Time());
+    this->m_additionalTime = std::unique_ptr<sf::Time>(new sf::Time());
 
     //this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
     // TODO
-    this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f((64*16), (64*9))));
-    this->_field->setFillColor(sf::Color(238, 232, 213));
+    this->m_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f((64*16), (64*9))));
+    this->m_field->setFillColor(sf::Color(238, 232, 213));
     //this->_field->setOutlineColor(sf::Color(181, 137, 0));
     //this->_field->setOutlineThickness(2);
 
@@ -34,58 +34,54 @@ void MatchState::start()
     {
         for(int j = 1; j < 9; j++)
         {
-            sf::RectangleShape r = sf::RectangleShape(sf::Vector2f(1, 1));
-            r.setPosition(i * 64, j * 64);
+            sf::RectangleShape r = sf::RectangleShape(sf::Vector2f(2, 2));
+            r.setPosition((i * 64) - 1, (j * 64) - 1);
             r.setFillColor(sf::Color(181, 137, 0));
-            this->_fieldPoints.push_back(r);
+            this->m_fieldPoints.push_back(r);
         }
     }
 
-    this->_square = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(64, 64)));
-    this->_square->setFillColor(sf::Color(147, 161, 161));
-    this->_square->setPosition(64, 64);
+    this->m_square = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(64, 64)));
+    this->m_square->setFillColor(sf::Color(147, 161, 161));
+    this->m_square->setPosition(64, 64);
 
-    this->_time = std::unique_ptr<sf::Text>(new sf::Text("", *this->_sourceSansPro, 40));
-    this->_time->setColor(sf::Color(42, 161, 152));
-    this->_time->setPosition(sf::Vector2f(30, 30));
+    this->m_time = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 40));
+    this->m_time->setColor(sf::Color(42, 161, 152));
+    this->m_time->setPosition(sf::Vector2f(30, 30));
 
-    this->_enemies.push_back(LittleEnemyEntity(sf::Vector2f(32, 32), *this->_sourceSansPro));
-
-    this->_isActive = true;
+    this->m_isActive = true;
 }
 
 void MatchState::stop()
 {
     DebugOutput::gameState("MatchState", "stop");
 
-    this->_sourceSansPro.reset();
-    this->_clock.reset();
-    this->_additionalTime.reset();
-    this->_field.reset();
-    this->_fieldPoints.clear();
-    this->_time.reset();
+    this->m_sourceSansPro.release();
+    this->m_clock.release();
+    this->m_additionalTime.release();
+    this->m_field.release();
+    this->m_fieldPoints.clear();
+    this->m_time.release();
 
-    this->_enemies.clear();
-
-    this->_isActive = false;
+    this->m_isActive = false;
 }
 
 void MatchState::pause()
 {
     DebugOutput::gameState("MatchState", "pause");
 
-    *this->_additionalTime += this->_clock->getElapsedTime();
+    *this->m_additionalTime += this->m_clock->getElapsedTime();
 
-    this->_isPaused = true;
+    this->m_isPaused = true;
 }
 
 void MatchState::resume()
 {
     DebugOutput::gameState("MatchState", "resume");
 
-    this->_clock->restart();
+    this->m_clock->restart();
 
-    this->_isPaused = false;
+    this->m_isPaused = false;
 }
 
 void MatchState::handleEvent(const sf::Event &event)
@@ -94,7 +90,11 @@ void MatchState::handleEvent(const sf::Event &event)
     {
     case sf::Event::KeyPressed:
         if(event.key.code == sf::Keyboard::Q)
-            this->changeState(StateChangeType::PopState);
+        {
+            StateEvent stateEvent;
+            stateEvent.type = StateEvent::PopState;
+            this->addStateEvent(stateEvent);
+        }
         else if(event.key.code == sf::Keyboard::P)
         {
             if(!this->isPaused())
@@ -145,25 +145,22 @@ sf::View MatchState::resize(const unsigned int x, const unsigned int y)
 void MatchState::update()
 {
     //this->_time->setString(intToString((this->_clock->getElapsedTime() + *this->_additionalTime).asSeconds()));
-    // little dirty fps hack...
 
-    this->_time->setString(intToString(1.f / this->_clock->getElapsedTime().asSeconds()));
+    // Berechnung der Bildfrequenz
+    // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
+    this->m_time->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / this->m_clock->getElapsedTime().asSeconds())));
 
-    this->_clock->restart();
+    this->m_clock->restart();
 }
 
 void MatchState::draw(sf::RenderTarget &renderTarget)
 {
     renderTarget.clear(sf::Color(253, 246, 227));
-    renderTarget.draw(*this->_field);
-    for(sf::Drawable &d: this->_fieldPoints)
+    renderTarget.draw(*this->m_field);
+    for(sf::Drawable &d: this->m_fieldPoints)
     {
         renderTarget.draw(d);
     }
-    renderTarget.draw(*this->_time);
-    renderTarget.draw(*this->_square);
-    for(sf::Drawable &d: this->_enemies)
-    {
-        renderTarget.draw(d);
-    }
+    renderTarget.draw(*this->m_time);
+    renderTarget.draw(*this->m_square);
 }
