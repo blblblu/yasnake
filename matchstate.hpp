@@ -7,7 +7,7 @@
 #include <boost/lexical_cast.hpp>
 #include <SFML/System.hpp>
 
-#include "gamestate.h"
+#include "gamestate.hpp"
 
 class MatchState : public GameState
 {

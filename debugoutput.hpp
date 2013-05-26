@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "colorcodes.h"
+#include "colorcodes.hpp"
 
 namespace DebugOutput
 {

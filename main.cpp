@@ -2,7 +2,7 @@
 
 #include <SFML/Window.hpp>
 
-#include "game.h"
+#include "game.hpp"
 
 using namespace std;
 

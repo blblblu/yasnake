@@ -8,18 +8,20 @@ SOURCES += main.cpp \
     statemanager.cpp \
     game.cpp \
     gamestate.cpp \
-    menustate.cpp
+    menustate.cpp \
+    player.cpp
 
 HEADERS += \
-    gamestate.h \
-    matchstate.h \
-    statemanager.h \
-    game.h \
-    statechangetype.h \
-    colorcodes.h \
-    debugoutput.h \
-    menustate.h \
-    stateevent.h
+    colorcodes.hpp \
+    debugoutput.hpp \
+    game.hpp \
+    gamestate.hpp \
+    matchstate.hpp \
+    menustate.hpp \
+    player.hpp \
+    statemanager.hpp \
+    stateevent.hpp \
+    direction.hpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 
@@ -28,9 +30,17 @@ OTHER_FILES += \
     todo.txt \
     Farbcodes.txt
 
-unix:!macx:!symbian: LIBS += -L$$PWD/../sfml-build/lib/ -lsfml-system
-unix:!macx:!symbian: LIBS += -L$$PWD/../sfml-build/lib/ -lsfml-window
-unix:!macx:!symbian: LIBS += -L$$PWD/../sfml-build/lib/ -lsfml-graphics
+unix:!macx:!symbian: LIBS += -L$$PWD/sfml/lib/ -lsfml-system
+unix:!macx:!symbian: LIBS += -L$$PWD/sfml/lib/ -lsfml-window
+unix:!macx:!symbian: LIBS += -L$$PWD/sfml/lib/ -lsfml-graphics
+
 
 INCLUDEPATH += $$PWD/sfml/include
 DEPENDPATH += $$PWD/sfml/include
+
+unix:!mac{
+  QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN
+  QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/lib
+  QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/libs
+  QMAKE_LFLAGS_RPATH=
+}

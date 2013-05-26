@@ -1,4 +1,4 @@
-#include "menustate.h"
+#include "menustate.hpp"
 #include <sstream>
 
 MenuState::MenuState() : GameState()
@@ -80,6 +80,8 @@ void MenuState::handleEvent(const sf::Event &event)
             stateEvent.data = StateEvent::StateChangeEvent("MatchState");
             this->addStateEvent(stateEvent);
         }
+        break;
+    default:
         break;
     }
 }

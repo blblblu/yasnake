@@ -1,4 +1,4 @@
-#include "gamestate.h"
+#include "gamestate.hpp"
 
 GameState::GameState()
 {
@@ -22,6 +22,7 @@ bool GameState::pollStateEvent(StateEvent &stateEvent)
     {
         stateEvent = this->m_stateEvents.front();
         this->m_stateEvents.pop();
+        return true;
     }
     else
         return false;

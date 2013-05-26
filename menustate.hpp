@@ -4,7 +4,7 @@
 #include <iostream>
 #include <memory>
 
-#include "gamestate.h"
+#include "gamestate.hpp"
 
 class MenuState : public GameState
 {

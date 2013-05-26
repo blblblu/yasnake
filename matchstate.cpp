@@ -1,4 +1,4 @@
-#include "matchstate.h"
+#include "matchstate.hpp"
 
 MatchState::MatchState() : GameState()
 {
@@ -102,6 +102,8 @@ void MatchState::handleEvent(const sf::Event &event)
             else
                 this->resume();
         }
+        break;
+    default:
         break;
     }
 }

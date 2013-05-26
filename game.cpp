@@ -1,4 +1,4 @@
-#include "game.h"
+#include "game.hpp"
 
 Game::Game(sf::VideoMode videoMode, const std::string &title)
 {
@@ -73,6 +73,8 @@ void Game::handleStateEvents()
             // View zurücksetzen
             if(!this->m_stateManager.emptyActive())
                 this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
+            break;
+        default:
             break;
         }
         // Automatisch aufhören, sobald kein GameState mehr aktiv ist

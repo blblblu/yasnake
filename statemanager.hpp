@@ -10,8 +10,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "debugoutput.h"
-#include "gamestate.h"
+#include "debugoutput.hpp"
+#include "gamestate.hpp"
 
 class StateManager
 {

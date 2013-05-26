@@ -7,8 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "debugoutput.h"
-#include "stateevent.h"
+#include "debugoutput.hpp"
+#include "stateevent.hpp"
 
 class GameState
 {

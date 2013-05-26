@@ -8,11 +8,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-#include "debugoutput.h"
-#include "menustate.h"
-#include "matchstate.h"
-#include "stateevent.h"
-#include "statemanager.h"
+#include "debugoutput.hpp"
+#include "menustate.hpp"
+#include "matchstate.hpp"
+#include "stateevent.hpp"
+#include "statemanager.hpp"
 
 class StateManager;
 

@@ -70,7 +70,7 @@
 #define CURUP(x)    printf("\033[%dA",(x)); /* Gehe x Zeilen nach oben */
 #define CURDOWN(x)  printf("\033[%dB",(x)); /*gehe x Zeile nach unten */
 #define CURRIGHT(x) printf("\033[%dC",(x)); /* gehe x Spalten nach rechts */
-#define CURLEFT(x)  printf("\033[%dD",(x)); /* gehe x Spalten nach links
+#define CURLEFT(x)  printf("\033[%dD",(x)); /* gehe x Spalten nach links */
 #define GOTO(x,y)   printf("\033[%d;%dH",(y),(x)); /*  Gehe zur Position x,y */
 
 #define CURGOHOME(x)    printf("\033[%df",(x)); /* Geh nach Zeile x und setze Curser auf Anfang */
