@@ -1,14 +1,12 @@
 #ifndef DIRECTION_HPP
 #define DIRECTION_HPP
 
-enum Direction
-{
-    Up,
-    Down,
-    Left,
-    Right,
-
-    Count
-};
+    enum class Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    };
 
 #endif // DIRECTION_HPP

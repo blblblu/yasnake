@@ -8,6 +8,7 @@
 #include <SFML/System.hpp>
 
 #include "gamestate.hpp"
+#include "player.hpp"
 
 class MatchState : public GameState
 {
@@ -36,6 +37,8 @@ private:
     std::vector<sf::RectangleShape> m_fieldPoints;
     std::unique_ptr<sf::Text> m_time;
     std::unique_ptr<sf::RectangleShape> m_square;
+
+    std::unique_ptr<Player> m_player;
 };
 
 #endif // MATCHSTATE_H

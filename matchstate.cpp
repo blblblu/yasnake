@@ -29,7 +29,7 @@ void MatchState::start()
     //this->_field->setOutlineColor(sf::Color(181, 137, 0));
     //this->_field->setOutlineThickness(2);
 
-    // TODO better using of constants
+    // TODO vielleicht besser mit Konstanten lösen...
     for(int i = 1; i < 16; i++)
     {
         for(int j = 1; j < 9; j++)
@@ -49,6 +49,8 @@ void MatchState::start()
     this->m_time->setColor(sf::Color(42, 161, 152));
     this->m_time->setPosition(sf::Vector2f(30, 30));
 
+    this->m_player = std::unique_ptr<Player>(new Player(sf::Vector2f((64*8), (64*4.5)), Direction::Up));
+
     this->m_isActive = true;
 }
 
@@ -62,6 +64,7 @@ void MatchState::stop()
     this->m_field.release();
     this->m_fieldPoints.clear();
     this->m_time.release();
+    this->m_player.release();
 
     this->m_isActive = false;
 }
@@ -86,21 +89,34 @@ void MatchState::resume()
 
 void MatchState::handleEvent(const sf::Event &event)
 {
+    StateEvent stateEvent;
+
     switch(event.type)
     {
     case sf::Event::KeyPressed:
-        if(event.key.code == sf::Keyboard::Q)
+        switch(event.key.code)
         {
-            StateEvent stateEvent;
+        case sf::Keyboard::Q:
             stateEvent.type = StateEvent::PopState;
             this->addStateEvent(stateEvent);
-        }
-        else if(event.key.code == sf::Keyboard::P)
-        {
-            if(!this->isPaused())
-                this->pause();
-            else
-                this->resume();
+            break;
+        // Spielersteuerung
+        case sf::Keyboard::Up:
+            if(this->m_player->getDirection() != Direction::Up && this->m_player->getDirection() != Direction::Down)
+                this->m_player->changeDirection(Direction::Up);
+            break;
+        case sf::Keyboard::Down:
+            if(this->m_player->getDirection() != Direction::Up && this->m_player->getDirection() != Direction::Down)
+                this->m_player->changeDirection(Direction::Down);
+            break;
+        case sf::Keyboard::Left:
+            if(this->m_player->getDirection() != Direction::Left && this->m_player->getDirection() != Direction::Right)
+                this->m_player->changeDirection(Direction::Left);
+            break;
+        case sf::Keyboard::Right:
+            if(this->m_player->getDirection() != Direction::Left && this->m_player->getDirection() != Direction::Right)
+                this->m_player->changeDirection(Direction::Right);
+            break;
         }
         break;
     default:
@@ -151,6 +167,7 @@ void MatchState::update()
     // Berechnung der Bildfrequenz
     // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
     this->m_time->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / this->m_clock->getElapsedTime().asSeconds())));
+    this->m_player->update(this->m_clock->getElapsedTime());
 
     this->m_clock->restart();
 }
@@ -165,4 +182,5 @@ void MatchState::draw(sf::RenderTarget &renderTarget)
     }
     renderTarget.draw(*this->m_time);
     renderTarget.draw(*this->m_square);
+    renderTarget.draw(*this->m_player);
 }

@@ -13,17 +13,33 @@ public:
     struct PlayerLineElement //TODO: besserer Name
     {
         PlayerLineElement(sf::RectangleShape line, Direction direction) : line(line), direction(direction){}
+        float getLength()
+        {
+            if(this->direction == Direction::Up || this->direction == Direction::Down)
+                return this->line.getSize().y;
+            else
+                return this->line.getSize().x;
+        }
+
         sf::RectangleShape line;
         Direction direction;
     };
 
-    Player(sf::Vector2f startingPosition, Direction direction, sf::Color color = sf::Color::Black);
+    Player(const sf::Vector2f startingPosition, const Direction direction, const sf::Color color = sf::Color(220, 50, 47), const float maximumLength = 128.f);
+
+    void changeDirection(const Direction direction);
+
+    Direction getDirection();
+    float getLength();
+
+    void update(const sf::Time &time);
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    
+    void adjustLength();
 
-    sf::Color m_color;
-    Direction m_direction;
+    float m_maximumLength;
     std::vector<PlayerLineElement> m_lines;
 };
 

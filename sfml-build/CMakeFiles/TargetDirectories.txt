@@ -1,5 +1,0 @@
-/home/sebastian/code/snake/sfml-build/src/SFML/Audio/CMakeFiles/sfml-audio.dir
-/home/sebastian/code/snake/sfml-build/src/SFML/Graphics/CMakeFiles/sfml-graphics.dir
-/home/sebastian/code/snake/sfml-build/src/SFML/Network/CMakeFiles/sfml-network.dir
-/home/sebastian/code/snake/sfml-build/src/SFML/System/CMakeFiles/sfml-system.dir
-/home/sebastian/code/snake/sfml-build/src/SFML/Window/CMakeFiles/sfml-window.dir
