@@ -44,3 +44,10 @@ unix:!mac{
   QMAKE_LFLAGS += -Wl,--rpath=\\\$\$ORIGIN/libs
   QMAKE_LFLAGS_RPATH=
 }
+
+INCLUDEPATH += $$PWD/boost_1_54_0
+
+
+
+win32: LIBS += -L$$PWD/sfml-build/lib/ -lsfml-main -lsfml-system -lsfml-window -lsfml-graphics
+
