@@ -39,7 +39,7 @@ private:
     
     void adjustLength();
 
-    bool isAlive;
+    bool m_isAlive;
     float m_maximumLength;
     std::vector<PlayerLineElement> m_lines;
 };
