@@ -30,9 +30,9 @@ OTHER_FILES += \
     todo.txt \
     Farbcodes.txt
 
-unix:!macx:!symbian: LIBS += -L$$PWD/sfml/lib/ -lsfml-system
-unix:!macx:!symbian: LIBS += -L$$PWD/sfml/lib/ -lsfml-window
-unix:!macx:!symbian: LIBS += -L$$PWD/sfml/lib/ -lsfml-graphics
+unix:!macx:!symbian: LIBS += -L$$PWD/sfml-build/lib/ -lsfml-system
+unix:!macx:!symbian: LIBS += -L$$PWD/sfml-build/lib/ -lsfml-window
+unix:!macx:!symbian: LIBS += -L$$PWD/sfml-build/lib/ -lsfml-graphics
 
 
 INCLUDEPATH += $$PWD/sfml/include

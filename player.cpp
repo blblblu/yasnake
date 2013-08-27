@@ -3,6 +3,7 @@
 // TODO: vielleicht besser mit Referenzen lösen...
 Player::Player(const sf::Vector2f startingPosition, const Direction direction, const sf::Color color, const float maximumLength)
 {
+    this->isAlive = true;
     this->m_maximumLength = maximumLength;
     sf::RectangleShape line;
     line.setFillColor(color);
@@ -147,7 +148,7 @@ float Player::getLength()
 void Player::update(const sf::Time &time)
 {
     // Größe, um die das letzte Teilstück erweitert werden soll
-    float additionalSize = 64*time.asSeconds();
+    float additionalSize = 128*time.asSeconds();
 
     switch(this->m_lines.back().direction)
     {
