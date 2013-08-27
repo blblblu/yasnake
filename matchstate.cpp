@@ -41,10 +41,6 @@ void MatchState::start()
         }
     }
 
-    this->m_square = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(64, 64)));
-    this->m_square->setFillColor(sf::Color(147, 161, 161));
-    this->m_square->setPosition(64, 64);
-
     this->m_time = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 40));
     this->m_time->setColor(sf::Color(42, 161, 152));
     this->m_time->setPosition(sf::Vector2f(30, 30));
@@ -168,6 +164,13 @@ void MatchState::update()
     // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
     this->m_time->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / this->m_clock->getElapsedTime().asSeconds())));
     this->m_player->update(this->m_clock->getElapsedTime());
+    // Gamestate beenden, wenn Spieler beendet (inaktiv) ist
+    if(!this->m_player->isActive())
+    {
+        StateEvent stateEvent;
+        stateEvent.type = StateEvent::PopState;
+        this->addStateEvent(stateEvent);
+    }
 
     this->m_clock->restart();
 }
@@ -181,6 +184,5 @@ void MatchState::draw(sf::RenderTarget &renderTarget)
         renderTarget.draw(d);
     }
     renderTarget.draw(*this->m_time);
-    renderTarget.draw(*this->m_square);
     renderTarget.draw(*this->m_player);
 }

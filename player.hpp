@@ -31,6 +31,7 @@ public:
 
     Direction getDirection();
     float getLength();
+    bool isActive();
 
     void update(const sf::Time &time);
 
@@ -39,6 +40,7 @@ private:
     
     void adjustLength();
 
+    bool m_isActive;
     bool m_isAlive;
     float m_maximumLength;
     std::vector<PlayerLineElement> m_lines;

@@ -3,6 +3,7 @@
 // TODO: vielleicht besser mit Referenzen lösen...
 Player::Player(const sf::Vector2f startingPosition, const Direction direction, const sf::Color color, const float maximumLength)
 {
+    this->m_isActive = true;
     this->m_isAlive = true;
     this->m_maximumLength = maximumLength;
     sf::RectangleShape line;
@@ -148,6 +149,11 @@ float Player::getLength()
     return length;
 }
 
+bool Player::isActive()
+{
+    return this->m_isActive;
+}
+
 void Player::update(const sf::Time &time)
 {
     if(this->m_isAlive)
@@ -184,11 +190,22 @@ void Player::update(const sf::Time &time)
         // Überprüfen, ob letztes Spielerelement mit anderen Elementen oder den Wänden kollidiert ist
         if(this->m_lines.back().line.getPosition().x < 0 || this->m_lines.back().line.getPosition().y < 0 || (this->m_lines.back().line.getPosition().x + this->m_lines.back().line.getSize().x) > (64*16) || (this->m_lines.back().line.getPosition().y + this->m_lines.back().line.getSize().y) > (64*9))
             this->m_isAlive = false;
+        // kein Prüfen auf Kollision mit dem vorletzten Element, da durch Rundungsfehler fälschlicherweise Kollisionen erkannt werden würden (die jedoch real nicht möglich sind)
+        for(int i = 0; i < (static_cast<int>(this->m_lines.size()) - 2); i++)
+        {
+            if(this->m_lines.back().line.getGlobalBounds().intersects(this->m_lines[i].line.getGlobalBounds()))
+            {
+                this->m_isAlive = false;
+                break;
+            }
+        }
     }
     else
     {
         this->m_maximumLength -= 128*time.asSeconds();
         this->adjustLength();
+        if(this->m_lines.empty())
+            this->m_isActive = false;
     }
 }
 

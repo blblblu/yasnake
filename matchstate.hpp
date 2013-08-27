@@ -36,7 +36,6 @@ private:
     std::unique_ptr<sf::RectangleShape> m_field;
     std::vector<sf::RectangleShape> m_fieldPoints;
     std::unique_ptr<sf::Text> m_time;
-    std::unique_ptr<sf::RectangleShape> m_square;
 
     std::unique_ptr<Player> m_player;
 };
