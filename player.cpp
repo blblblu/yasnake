@@ -159,7 +159,7 @@ void Player::update(const sf::Time &time)
     if(this->m_isAlive)
     {
         // Größe, um die das letzte Teilstück erweitert werden soll
-        float additionalSize = 128*time.asSeconds();
+        float additionalSize = 256*time.asSeconds();
 
         switch(this->m_lines.back().direction)
         {
@@ -202,7 +202,9 @@ void Player::update(const sf::Time &time)
     }
     else
     {
-        this->m_maximumLength -= 128*time.asSeconds();
+        if(this->getLength() < this->m_maximumLength)
+            this->m_maximumLength = this->getLength();
+        this->m_maximumLength -= 1024*time.asSeconds();
         this->adjustLength();
         if(this->m_lines.empty())
             this->m_isActive = false;
