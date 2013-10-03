@@ -164,6 +164,10 @@ void MatchState::update()
     // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
     this->m_time->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / this->m_clock->getElapsedTime().asSeconds())));
     this->m_player->update(this->m_clock->getElapsedTime());
+    if(this->m_player->firstElementIntersectsWithBoundaries())
+        this->m_player->setLifeStatus(false);
+    if(this->m_player->firstElementIntersectsWithPlayer())
+        this->m_player->setLifeStatus(false);
     // Gamestate beenden, wenn Spieler beendet (inaktiv) ist
     if(!this->m_player->isActive())
     {

@@ -34,7 +34,12 @@ public:
     float getLength();
     bool isActive();
 
+    void setLifeStatus(bool isAlive);
+
     void update(const sf::Time &time);
+
+    bool firstElementIntersectsWithBoundaries();
+    bool firstElementIntersectsWithPlayer();
 
 private:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
