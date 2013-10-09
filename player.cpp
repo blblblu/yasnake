@@ -149,14 +149,29 @@ float Player::getLength()
     return length;
 }
 
+float Player::getMaximumLength()
+{
+    return this->m_maximumLength;
+}
+
 bool Player::isActive()
 {
     return this->m_isActive;
 }
 
+bool Player::isAlive()
+{
+    return this->m_isAlive;
+}
+
 void Player::setLifeStatus(bool isAlive)
 {
     this->m_isAlive = isAlive;
+}
+
+void Player::setMaximumLength(float maximumLength)
+{
+    this->m_maximumLength = maximumLength;
 }
 
 void Player::update(const sf::Time &time)
@@ -224,6 +239,11 @@ bool Player::firstElementIntersectsWithPlayer()
         }
     }
     return false;
+}
+
+bool Player::firstElementIntersectsWith(const sf::FloatRect &rect)
+{
+    return this->m_lines.back().line.getGlobalBounds().intersects(rect);
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const

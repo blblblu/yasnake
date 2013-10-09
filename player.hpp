@@ -32,17 +32,21 @@ public:
 
     Direction getDirection();
     float getLength();
+    float getMaximumLength();
     bool isActive();
+    bool isAlive();
 
     void setLifeStatus(bool isAlive);
+    void setMaximumLength(float maximumLength);
 
     void update(const sf::Time &time);
 
     bool firstElementIntersectsWithBoundaries();
     bool firstElementIntersectsWithPlayer();
+    bool firstElementIntersectsWith(const sf::FloatRect &rect);
 
 private:
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     
     void adjustLength();
 

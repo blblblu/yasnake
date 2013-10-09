@@ -1,8 +1,10 @@
 #ifndef MATCHSTATE_H
 #define MATCHSTATE_H
 
+#include <ctime>
 #include <iostream>
 #include <memory>
+#include <random>
 
 #include <boost/lexical_cast.hpp>
 #include <SFML/System.hpp>
@@ -28,16 +30,28 @@ public:
     void draw(sf::RenderTarget &renderTarget);
 
 private:
+    void randomizeTargetPosition();
+
+    int m_score;
+
     std::unique_ptr<sf::Font> m_sourceSansPro;
 
     std::unique_ptr<sf::Clock> m_clock;
-    std::unique_ptr<sf::Time> m_additionalTime;
+    std::unique_ptr<sf::Time> m_additionalTime; // für korrekte Zeitberechnung trotz etwaiger Pause
+    std::unique_ptr<sf::Time> m_overallTime;
 
     std::unique_ptr<sf::RectangleShape> m_field;
     std::vector<sf::RectangleShape> m_fieldPoints;
-    std::unique_ptr<sf::Text> m_time;
+
+    std::unique_ptr<sf::Text> m_HUDScore;
+    std::unique_ptr<sf::Text> m_HUDTime;
 
     std::unique_ptr<Player> m_player;
+    std::unique_ptr<sf::RectangleShape> m_target;
+
+    std::uniform_int_distribution<> m_distributionX; // Zahlenverteilung betreffend x-Achse
+    std::uniform_int_distribution<> m_distributionY; // Zahlenverteilung betreffend x-Achse
+    std::mt19937 m_engine; // Mersenne-Twister
 };
 
 #endif // MATCHSTATE_H

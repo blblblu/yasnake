@@ -1,6 +1,6 @@
 #include "matchstate.hpp"
 
-MatchState::MatchState() : GameState()
+MatchState::MatchState() : GameState(), m_distributionX(std::uniform_int_distribution<>(0, 4*16-1)), m_distributionY(std::uniform_int_distribution<>(0, 4*9-1))
 {
     DebugOutput::gameState("MatchState", "initialization");
 }
@@ -13,6 +13,8 @@ MatchState::~MatchState()
 void MatchState::start()
 {
     DebugOutput::gameState("MatchState", "start");
+
+    this->m_score = 0;
 
     this->m_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
     this->m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
@@ -41,11 +43,22 @@ void MatchState::start()
         }
     }
 
-    this->m_time = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 40));
-    this->m_time->setColor(sf::Color(42, 161, 152));
-    this->m_time->setPosition(sf::Vector2f(30, 30));
+    this->m_HUDScore = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
+    this->m_HUDScore->setColor(sf::Color(133, 153, 0));
+    this->m_HUDScore->setPosition(sf::Vector2f(0, -72));
+
+    this->m_HUDTime = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
+    this->m_HUDTime->setColor(sf::Color(42, 161, 152));
+    this->m_HUDTime->setPosition(sf::Vector2f(360, -72));
 
     this->m_player = std::unique_ptr<Player>(new Player(sf::Vector2f((64*8), (64*4.5)), Direction::Up));
+    this->m_target = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(16, 16)));
+    this->m_target->setFillColor(sf::Color(38, 139, 210));
+
+    this->m_engine.seed(time(NULL));
+
+    // Position des Ziel-Quadrates zufällig festlegen
+    this->randomizeTargetPosition();
 
     this->m_isActive = true;
 }
@@ -59,8 +72,13 @@ void MatchState::stop()
     this->m_additionalTime.release();
     this->m_field.release();
     this->m_fieldPoints.clear();
-    this->m_time.release();
+    this->m_HUDScore.release();
+    this->m_HUDTime.release();
     this->m_player.release();
+    this->m_target.release();
+    //this->m_distributionX.release();
+    //this->m_distributionY.release();
+    //this->m_engine.release();
 
     this->m_isActive = false;
 }
@@ -162,12 +180,25 @@ void MatchState::update()
 
     // Berechnung der Bildfrequenz
     // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
-    this->m_time->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / this->m_clock->getElapsedTime().asSeconds())));
+    //this->m_HUDScore->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / this->m_clock->getElapsedTime().asSeconds())));
+    this->
+
+    // Spieler aktualisieren
     this->m_player->update(this->m_clock->getElapsedTime());
+    // Spieler auf Kollision mit Hindernissen überprüfen
     if(this->m_player->firstElementIntersectsWithBoundaries())
         this->m_player->setLifeStatus(false);
     if(this->m_player->firstElementIntersectsWithPlayer())
         this->m_player->setLifeStatus(false);
+    // Spieler auf Kollision mit Ziel-Quadrat überprüfen
+    if(this->m_player->isAlive())
+    {
+        if(this->m_player->firstElementIntersectsWith(this->m_target->getGlobalBounds()))
+        {
+            this->m_player->setMaximumLength(1.25f*this->m_player->getMaximumLength());
+            this->randomizeTargetPosition();
+        }
+    }
     // Gamestate beenden, wenn Spieler beendet (inaktiv) ist
     if(!this->m_player->isActive())
     {
@@ -187,6 +218,16 @@ void MatchState::draw(sf::RenderTarget &renderTarget)
     {
         renderTarget.draw(d);
     }
-    renderTarget.draw(*this->m_time);
+    renderTarget.draw(*this->m_HUDScore);
+    renderTarget.draw(*this->m_HUDTime);
     renderTarget.draw(*this->m_player);
+    renderTarget.draw(*this->m_target);
+}
+
+void MatchState::randomizeTargetPosition()
+{
+    // Position des Ziel-Quadrates zufällig festlegen
+    int newX = 16*this->m_distributionX(this->m_engine);
+    int newY = 16*this->m_distributionY(this->m_engine);
+    this->m_target->setPosition(sf::Vector2f(newX, newY));
 }
