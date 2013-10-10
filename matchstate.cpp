@@ -23,6 +23,7 @@ void MatchState::start()
     this->m_clock->restart();
 
     this->m_additionalTime = std::unique_ptr<sf::Time>(new sf::Time());
+    this->m_overallTime = std::unique_ptr<sf::Time>(new sf::Time());
 
     //this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
     // TODO
@@ -49,7 +50,7 @@ void MatchState::start()
 
     this->m_HUDTime = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
     this->m_HUDTime->setColor(sf::Color(42, 161, 152));
-    this->m_HUDTime->setPosition(sf::Vector2f(360, -72));
+    //this->m_HUDTime->setPosition(sf::Vector2f(360, -72));
 
     this->m_player = std::unique_ptr<Player>(new Player(sf::Vector2f((64*8), (64*4.5)), Direction::Up));
     this->m_target = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(16, 16)));
@@ -70,6 +71,7 @@ void MatchState::stop()
     this->m_sourceSansPro.release();
     this->m_clock.release();
     this->m_additionalTime.release();
+    this->m_overallTime.release();
     this->m_field.release();
     this->m_fieldPoints.clear();
     this->m_HUDScore.release();
@@ -181,10 +183,29 @@ void MatchState::update()
     // Berechnung der Bildfrequenz
     // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
     //this->m_HUDScore->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / this->m_clock->getElapsedTime().asSeconds())));
-    this->
+
+    // vergangene Zeit tempörär abspeichern, um fehlerhafte Berechnungen zu vermeiden, anschließend Uhr zurücksetzen
+    sf::Time elapsedTime = this->m_clock->getElapsedTime();
+    this->m_clock->restart();
+
+    // Zeit aktualisieren
+    *this->m_overallTime += elapsedTime;
+
+    // Punktzahl aktualisieren, wenn Spieler noch am Leben ist
+    if(this->m_player->isAlive())
+    {
+        this->m_score += 0.1*elapsedTime.asSeconds()*this->m_player->getMaximumLength();
+    }
+
+    // Punkt- und Zeitanzeigen
+    this->m_HUDScore->setString(boost::lexical_cast<std::string>(static_cast<int>(this->m_score)));
+    // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
+    this->m_HUDTime->setString(boost::lexical_cast<std::string>(static_cast<int>(this->m_overallTime->asSeconds())));
+    // Position von Zeitanzeige aktualisieren
+    this->m_HUDTime->setPosition(sf::Vector2f(1024-this->m_HUDTime->getLocalBounds().width, -72));
 
     // Spieler aktualisieren
-    this->m_player->update(this->m_clock->getElapsedTime());
+    this->m_player->update(elapsedTime);
     // Spieler auf Kollision mit Hindernissen überprüfen
     if(this->m_player->firstElementIntersectsWithBoundaries())
         this->m_player->setLifeStatus(false);
@@ -206,8 +227,6 @@ void MatchState::update()
         stateEvent.type = StateEvent::PopState;
         this->addStateEvent(stateEvent);
     }
-
-    this->m_clock->restart();
 }
 
 void MatchState::draw(sf::RenderTarget &renderTarget)

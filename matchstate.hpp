@@ -32,7 +32,7 @@ public:
 private:
     void randomizeTargetPosition();
 
-    int m_score;
+    float m_score;
 
     std::unique_ptr<sf::Font> m_sourceSansPro;
 
