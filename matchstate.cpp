@@ -38,7 +38,7 @@ void MatchState::start()
         for(int j = 1; j < 9; j++)
         {
             sf::RectangleShape r = sf::RectangleShape(sf::Vector2f(2, 2));
-            r.setPosition((i * 64) - 1, (j * 64) - 1);
+            r.setPosition(static_cast<float>((i*64)-1), static_cast<float>((j*64)-1));
             r.setFillColor(sf::Color(181, 137, 0));
             this->m_fieldPoints.push_back(r);
         }
@@ -56,7 +56,7 @@ void MatchState::start()
     this->m_target = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(16, 16)));
     this->m_target->setFillColor(sf::Color(38, 139, 210));
 
-    this->m_engine.seed(time(NULL));
+    this->m_engine.seed(static_cast<unsigned long>(time(NULL)));
 
     // Position des Ziel-Quadrates zufällig festlegen
     this->randomizeTargetPosition();
@@ -116,6 +116,10 @@ void MatchState::handleEvent(const sf::Event &event)
             stateEvent.type = StateEvent::PopState;
             this->addStateEvent(stateEvent);
             break;
+        case sf::Keyboard::P:
+            stateEvent.type = StateEvent::PushState;
+            stateEvent.data = StateEvent::StateChangeEvent("PauseState");
+            this->addStateEvent(stateEvent);
         // Spielersteuerung
         case sf::Keyboard::Up:
             if(this->m_player->getDirection() != Direction::Up && this->m_player->getDirection() != Direction::Down)
@@ -194,7 +198,7 @@ void MatchState::update()
     // Punktzahl aktualisieren, wenn Spieler noch am Leben ist
     if(this->m_player->isAlive())
     {
-        this->m_score += 0.1*elapsedTime.asSeconds()*this->m_player->getMaximumLength();
+        this->m_score += 0.0001*elapsedTime.asSeconds()*std::pow(this->m_player->getMaximumLength(), 2);
     }
 
     // Punkt- und Zeitanzeigen
@@ -248,5 +252,5 @@ void MatchState::randomizeTargetPosition()
     // Position des Ziel-Quadrates zufällig festlegen
     int newX = 16*this->m_distributionX(this->m_engine);
     int newY = 16*this->m_distributionY(this->m_engine);
-    this->m_target->setPosition(sf::Vector2f(newX, newY));
+    this->m_target->setPosition(sf::Vector2f(static_cast<float>(newX), static_cast<float>(newY)));
 }

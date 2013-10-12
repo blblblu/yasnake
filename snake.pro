@@ -9,10 +9,11 @@ SOURCES += main.cpp \
     game.cpp \
     gamestate.cpp \
     menustate.cpp \
-    player.cpp
+    player.cpp \
+    pausestate.cpp \
+    scorestate.cpp
 
 HEADERS += \
-    colorcodes.hpp \
     debugoutput.hpp \
     game.hpp \
     gamestate.hpp \
@@ -21,7 +22,9 @@ HEADERS += \
     player.hpp \
     statemanager.hpp \
     stateevent.hpp \
-    direction.hpp
+    direction.hpp \
+    pausestate.hpp \
+    scorestate.hpp
 
 QMAKE_CXXFLAGS += -std=c++0x
 

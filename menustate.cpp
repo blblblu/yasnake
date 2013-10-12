@@ -92,9 +92,9 @@ sf::View MenuState::resize(const unsigned int x, const unsigned int y)
     tmp << x << "/" << y;
     this->m_debug->setString(tmp.str());
 
-    this->m_keyboardCommands->setPosition(30, y - 90);
+    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(y-90));
 
-    return sf::View(sf::Vector2f(x / 2, y / 2), sf::Vector2f(x, y));
+    return sf::View(sf::Vector2f(x/2.f, y/2.f), sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
 }
 
 void MenuState::update()

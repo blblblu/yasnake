@@ -11,6 +11,7 @@
 #include "debugoutput.hpp"
 #include "menustate.hpp"
 #include "matchstate.hpp"
+#include "pausestate.hpp"
 #include "stateevent.hpp"
 #include "statemanager.hpp"
 

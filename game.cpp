@@ -8,9 +8,11 @@ Game::Game(sf::VideoMode videoMode, const std::string &title)
     // vorhandene Gamestates dem Statemanager bekanntmachen
     this->m_stateManager.addState("MenuState", new MenuState());
     this->m_stateManager.addState("MatchState", new MatchState());
+    this->m_stateManager.addState("PauseState", new PauseState());
 
     // Hauptmenü laden
     this->m_stateManager.pushState("MenuState");
+    this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
 }
 
 Game::~Game()

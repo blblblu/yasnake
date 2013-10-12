@@ -1,6 +1,7 @@
 #ifndef MATCHSTATE_H
 #define MATCHSTATE_H
 
+#include <cmath>
 #include <ctime>
 #include <iostream>
 #include <memory>
@@ -32,7 +33,7 @@ public:
 private:
     void randomizeTargetPosition();
 
-    float m_score;
+    double m_score;
 
     std::unique_ptr<sf::Font> m_sourceSansPro;
 
