@@ -18,21 +18,17 @@ void MenuState::start()
     this->m_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
     this->m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
 
-    this->m_title = std::unique_ptr<sf::Text>(new sf::Text("Yet Another Snake Clone", *this->m_sourceSansPro, 40));
+    this->m_title = std::unique_ptr<sf::Text>(new sf::Text("Snake", *this->m_sourceSansPro, 60));
     this->m_title->setColor(sf::Color(133, 153, 0));
-    this->m_title->setPosition(sf::Vector2f(30, 30));
+    this->m_title->setPosition(sf::Vector2f(30, 10));
 
     this->m_name = std::unique_ptr<sf::Text>(new sf::Text("Sebastian Schulz", *this->m_sourceSansPro, 20));
     this->m_name->setColor(sf::Color(42, 161, 152));
     this->m_name->setPosition(sf::Vector2f(30, 75));
 
-    this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("n - new game\nq - quit game", *this->m_sourceSansPro, 20));
+    this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Ent] - neues Spiel\n[Esc] - Spiel beenden", *this->m_sourceSansPro, 20));
     this->m_keyboardCommands->setColor(sf::Color(38, 139, 210));
     this->m_keyboardCommands->setPosition(sf::Vector2f(30, 530));
-
-    this->m_debug = std::unique_ptr<sf::Text>(new sf::Text("0/0", *this->m_sourceSansPro, 20));
-    this->m_debug->setColor(sf::Color(0, 0, 0));
-    this->m_debug->setPosition(sf::Vector2f(0, 0));
 
     this->m_isActive = true;
 }
@@ -41,6 +37,7 @@ void MenuState::stop()
 {
     DebugOutput::gameState("MenuState", "stop");
 
+    this->m_sourceSansPro.release();
     this->m_title.release();
     this->m_name.release();
     this->m_keyboardCommands.release();
@@ -67,16 +64,16 @@ void MenuState::handleEvent(const sf::Event &event)
     switch(event.type)
     {
     case sf::Event::KeyPressed:
-        if(event.key.code == sf::Keyboard::Q)
+        if(event.key.code == sf::Keyboard::Escape)
         {
             StateEvent stateEvent;
-            stateEvent.type = StateEvent::PopState;
+            stateEvent.type = StateEvent::EventType::PopState;
             this->addStateEvent(stateEvent);
         }
-        if(event.key.code == sf::Keyboard::N)
+        if(event.key.code == sf::Keyboard::Return)
         {
             StateEvent stateEvent;
-            stateEvent.type = StateEvent::PushState;
+            stateEvent.type = StateEvent::EventType::PushState;
             stateEvent.data = StateEvent::StateChangeEvent("MatchState");
             this->addStateEvent(stateEvent);
         }
@@ -88,10 +85,6 @@ void MenuState::handleEvent(const sf::Event &event)
 
 sf::View MenuState::resize(const unsigned int x, const unsigned int y)
 {
-    std::ostringstream tmp;
-    tmp << x << "/" << y;
-    this->m_debug->setString(tmp.str());
-
     this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(y-90));
 
     return sf::View(sf::Vector2f(x/2.f, y/2.f), sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
@@ -107,6 +100,4 @@ void MenuState::draw(sf::RenderTarget &renderTarget)
     renderTarget.draw(*this->m_title);
     renderTarget.draw(*this->m_name);
     renderTarget.draw(*this->m_keyboardCommands);
-
-    renderTarget.draw(*this->m_debug);
 }

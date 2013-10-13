@@ -113,11 +113,11 @@ void MatchState::handleEvent(const sf::Event &event)
         switch(event.key.code)
         {
         case sf::Keyboard::Q:
-            stateEvent.type = StateEvent::PopState;
+            stateEvent.type = StateEvent::EventType::PopState;
             this->addStateEvent(stateEvent);
             break;
         case sf::Keyboard::P:
-            stateEvent.type = StateEvent::PushState;
+            stateEvent.type = StateEvent::EventType::PushState;
             stateEvent.data = StateEvent::StateChangeEvent("PauseState");
             this->addStateEvent(stateEvent);
         // Spielersteuerung
@@ -192,13 +192,11 @@ void MatchState::update()
     sf::Time elapsedTime = this->m_clock->getElapsedTime();
     this->m_clock->restart();
 
-    // Zeit aktualisieren
-    *this->m_overallTime += elapsedTime;
-
-    // Punktzahl aktualisieren, wenn Spieler noch am Leben ist
+    // Zeit und Punktzahl aktualisieren, wenn Spieler noch am Leben ist
     if(this->m_player->isAlive())
     {
         this->m_score += 0.0001*elapsedTime.asSeconds()*std::pow(this->m_player->getMaximumLength(), 2);
+        *this->m_overallTime += elapsedTime;
     }
 
     // Punkt- und Zeitanzeigen
@@ -224,12 +222,19 @@ void MatchState::update()
             this->randomizeTargetPosition();
         }
     }
-    // Gamestate beenden, wenn Spieler beendet (inaktiv) ist
+    // Gamestate beenden und Punktzahl dem Spiel übergeben, wenn Spieler beendet (inaktiv) ist
     if(!this->m_player->isActive())
     {
-        StateEvent stateEvent;
-        stateEvent.type = StateEvent::PopState;
-        this->addStateEvent(stateEvent);
+        // Punktzahl übergeben
+        StateEvent scoreEvent;
+        scoreEvent.type = StateEvent::EventType::SubmitScoreEvent;
+        scoreEvent.data = StateEvent::SubmitScoreEvent(static_cast<int>(this->m_score));
+        this->addStateEvent(scoreEvent);
+        // Gamestate wechseln
+        StateEvent stateChangeEvent;
+        stateChangeEvent.type = StateEvent::EventType::ReplaceState;
+        stateChangeEvent.data = StateEvent::StateChangeEvent("ScoreState");
+        this->addStateEvent(stateChangeEvent);
     }
 }
 

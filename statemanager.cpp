@@ -127,6 +127,22 @@ GameState *StateManager::backActive()
     return this->m_activeStates.back();
 }
 
+GameState *StateManager::getState(const std::string &id)
+{
+    // prüfen, ob Gamestate mit id überhaupt existiert (und ggf. Exception werfen)
+    std::map<std::string, std::unique_ptr<GameState> >::iterator it = this->m_statesById.find(id);
+    if(it == this->m_statesById.end())
+    {
+        std::string error;
+        error.append("Gamestate with id \"");
+        error.append(id);
+        error.append("\" does not exist");
+        throw std::runtime_error(error);
+    }
+
+    return this->m_statesById[id].get();
+}
+
 bool StateManager::emptyActive()
 {
     return this->m_activeStates.empty();

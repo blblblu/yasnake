@@ -28,8 +28,6 @@ private:
     std::unique_ptr<sf::Text> m_title;
     std::unique_ptr<sf::Text> m_name;
     std::unique_ptr<sf::Text> m_keyboardCommands;
-
-    std::unique_ptr<sf::Text> m_debug;
 };
 
 #endif // MENUSTATE_H

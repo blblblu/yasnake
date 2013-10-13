@@ -3,9 +3,11 @@
 
 #include <memory>
 
+#include <boost/lexical_cast.hpp>
+
 #include "gamestate.hpp"
 
-class ScoreState : public ScoreState
+class ScoreState : public GameState
 {
 public:
     ScoreState();
@@ -22,11 +24,17 @@ public:
     void update();
     void draw(sf::RenderTarget &renderTarget);
 
+    void updateScore(const unsigned int highscore, const unsigned int score);
+
 private:
     std::unique_ptr<sf::Font> m_sourceSansPro;
     std::unique_ptr<sf::Text> m_heading;
-    std::unique_ptr<sf::Text> m_highscore;
-    std::unique_ptr<sf::Text> m_score;
+    std::unique_ptr<sf::Text> m_highscoreText;
+    std::unique_ptr<sf::Text> m_keyboardCommands;
+    std::unique_ptr<sf::Text> m_scoreText;
+
+    unsigned int m_highscore;
+    unsigned int m_score;
 };
 
 #endif // SCORESTATE_H

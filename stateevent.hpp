@@ -13,18 +13,25 @@ public:
         StateChangeEvent(std::string name) : name(name){}
         std::string name;
     };
+    struct SubmitScoreEvent{
+        SubmitScoreEvent(){}
+        SubmitScoreEvent(int score) : score(score){}
+        int score;
+    };
 
-    enum EventType{
+    enum class EventType{
         ReplaceState,
         PushState,
         PopState,
+
+        SubmitScoreEvent,
 
         Count
     };
 
     EventType type;
 
-    boost::variant<StateChangeEvent> data;
+    boost::variant<StateChangeEvent, SubmitScoreEvent> data;
 };
 
 #endif // STATEEVENT_H

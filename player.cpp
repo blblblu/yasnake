@@ -10,12 +10,12 @@ Player::Player(const sf::Vector2f startingPosition, const Direction direction, c
     line.setFillColor(color);
     if(direction == Direction::Up || direction == Direction::Down)
     {
-        line.setSize(sf::Vector2f(8, 8));
+        line.setSize(sf::Vector2f(8, 32));
         line.setPosition(startingPosition - sf::Vector2f(4, 0)); // TODO: Rechnungen kontrollieren
     }
     else
     {
-        line.setSize(sf::Vector2f(0, 8));
+        line.setSize(sf::Vector2f(32, 8));
         line.setPosition(startingPosition - sf::Vector2f(0, 4)); // TODO: Rechnungen kontrollieren
     }
     this->m_lines.push_back(PlayerLineElement(line, direction));
@@ -179,7 +179,7 @@ void Player::update(const sf::Time &time)
     if(this->m_isAlive)
     {
         // Größe, um die das letzte Teilstück erweitert werden soll
-        float additionalSize = 0.5*time.asSeconds()*this->getLength();
+        float additionalSize = static_cast<float>(0.5*time.asSeconds()*this->getLength());
 
         switch(this->m_lines.back().direction)
         {
@@ -230,8 +230,8 @@ bool Player::firstElementIntersectsWithBoundaries()
 bool Player::firstElementIntersectsWithPlayer()
 {
     // Überprüfen, ob letztes Spielerelement mit anderen Elementen kollidiert ist
-    // kein Prüfen auf Kollision mit dem vorletzten Element, da durch Rundungsfehler fälschlicherweise Kollisionen erkannt werden würden (die jedoch real nicht möglich sind)
-    for(int i = 0; i < (static_cast<int>(this->m_lines.size()) - 2); i++)
+    // kein Prüfen auf Kollision mit den letzten 3 Elementen, da durch Rundungsfehler fälschlicherweise Kollisionen erkannt werden würden (die jedoch real nicht möglich sind)
+    for(int i = 0; i < (static_cast<int>(this->m_lines.size()) - 3); i++)
     {
         if(this->m_lines.back().line.getGlobalBounds().intersects(this->m_lines[i].line.getGlobalBounds()))
         {

@@ -25,7 +25,8 @@ public:
     void pushState(const std::string id);
     void popState();
 
-    GameState* backActive();
+    GameState *backActive();
+    GameState *getState(const std::string &id);
     bool emptyActive();
 
 private:
