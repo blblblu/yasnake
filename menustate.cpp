@@ -26,11 +26,9 @@ void MenuState::start()
     this->m_name->setColor(sf::Color(42, 161, 152));
     this->m_name->setPosition(sf::Vector2f(30, 75));
 
-    this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Ent] - neues Spiel\n[Esc] - Spiel beenden", *this->m_sourceSansPro, 20));
+    this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Enter] - neues Spiel\n[Escape] - Spiel beenden", *this->m_sourceSansPro, 20));
     this->m_keyboardCommands->setColor(sf::Color(38, 139, 210));
     this->m_keyboardCommands->setPosition(sf::Vector2f(30, 530));
-
-    this->m_isActive = true;
 }
 
 void MenuState::stop()
@@ -41,22 +39,16 @@ void MenuState::stop()
     this->m_title.release();
     this->m_name.release();
     this->m_keyboardCommands.release();
-
-    this->m_isActive = false;
 }
 
 void MenuState::pause()
 {
     DebugOutput::gameState("MenuState", "pause");
-
-    this->m_isPaused = true;
 }
 
 void MenuState::resume()
 {
     DebugOutput::gameState("MenuState", "resume");
-
-    this->m_isPaused = false;
 }
 
 void MenuState::handleEvent(const sf::Event &event)
@@ -85,7 +77,7 @@ void MenuState::handleEvent(const sf::Event &event)
 
 sf::View MenuState::resize(const unsigned int x, const unsigned int y)
 {
-    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(y-90));
+    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(y-30-this->m_keyboardCommands->getLocalBounds().height));
 
     return sf::View(sf::Vector2f(x/2.f, y/2.f), sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
 }

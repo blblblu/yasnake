@@ -44,8 +44,9 @@ private:
     std::unique_ptr<sf::RectangleShape> m_field;
     std::vector<sf::RectangleShape> m_fieldPoints;
 
-    std::unique_ptr<sf::Text> m_HUDScore;
-    std::unique_ptr<sf::Text> m_HUDTime;
+    std::unique_ptr<sf::Text> m_keyboardCommands;
+    std::unique_ptr<sf::Text> m_scoreText;
+    std::unique_ptr<sf::Text> m_timeText;
 
     std::unique_ptr<Player> m_player;
     std::unique_ptr<sf::RectangleShape> m_target;

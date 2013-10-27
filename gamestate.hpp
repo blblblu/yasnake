@@ -9,9 +9,14 @@
 
 #include "debugoutput.hpp"
 #include "stateevent.hpp"
+#include "statemanager.hpp"
+
+class StateManager;
 
 class GameState
 {
+    friend class StateManager;
+
 public:
     GameState();
     virtual ~GameState(){}
@@ -35,6 +40,7 @@ public:
 protected:
     void addStateEvent(const StateEvent &stateEvent);
 
+private:
     bool m_isActive;
     bool m_isPaused;
 

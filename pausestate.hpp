@@ -23,6 +23,7 @@ public:
     void draw(sf::RenderTarget &renderTarget);
 
 private:
+    std::unique_ptr<sf::Text> m_keyboardCommands;
     std::unique_ptr<sf::Font> m_sourceSansPro;
     std::unique_ptr<sf::Text> m_text;
 };

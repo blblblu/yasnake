@@ -13,6 +13,7 @@ StateManager::~StateManager()
     while(!this->m_activeStates.empty())
     {
         this->m_activeStates.back()->stop();
+        this->m_activeStates.back()->m_isActive = false;
         this->m_activeStates.pop_back();
     }
 }
@@ -49,6 +50,7 @@ void StateManager::replaceState(const std::string id)
     if(!this->m_activeStates.empty())
     {
         this->m_activeStates.back()->stop();
+        this->m_activeStates.back()->m_isActive = false;
         this->m_activeStates.pop_back();
     }
 
@@ -68,6 +70,7 @@ void StateManager::replaceState(const std::string id)
 
     // neuen Gamestate starten
     this->m_activeStates.back()->start();
+    this->m_activeStates.back()->m_isActive = true;
 
     DebugOutput::stateManager("changed active state to state \"" + id + "\"");
 }
@@ -78,7 +81,10 @@ void StateManager::pushState(const std::string id)
 
     // derzeitigen Gamestate pausieren
     if(!this->m_activeStates.empty())
+    {
         this->m_activeStates.back()->pause();
+        this->m_activeStates.back()->m_isPaused = true;
+    }
 
     // prüfen, ob Gamestate mit id überhaupt existiert (und ggf. Exception werfen)
     std::map<std::string, std::unique_ptr<GameState> >::iterator it = this->m_statesById.find(id);
@@ -96,6 +102,7 @@ void StateManager::pushState(const std::string id)
 
     // neuen Gamestate starten
     this->m_activeStates.back()->start();
+    this->m_activeStates.back()->m_isActive = true;
 
     DebugOutput::stateManager("added state \"" + id + "\" as active state");
 }
@@ -108,6 +115,7 @@ void StateManager::popState()
     if(!this->m_activeStates.empty())
     {
         this->m_activeStates.back()->stop();
+        this->m_activeStates.back()->m_isActive = false;
         this->m_activeStates.pop_back();
     }
 
@@ -115,6 +123,7 @@ void StateManager::popState()
     if(!this->m_activeStates.empty())
     {
         this->m_activeStates.back()->resume();
+        this->m_activeStates.back()->m_isPaused = false;
     }
 }
 

@@ -44,12 +44,16 @@ void MatchState::start()
         }
     }
 
-    this->m_HUDScore = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
-    this->m_HUDScore->setColor(sf::Color(133, 153, 0));
-    this->m_HUDScore->setPosition(sf::Vector2f(0, -72));
+    this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Leer] Spiel pausieren", *this->m_sourceSansPro, 20));
+    this->m_keyboardCommands->setColor(sf::Color(38, 139, 210));
+    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(720-72-30-this->m_keyboardCommands->getLocalBounds().height));
 
-    this->m_HUDTime = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
-    this->m_HUDTime->setColor(sf::Color(42, 161, 152));
+    this->m_scoreText = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
+    this->m_scoreText->setColor(sf::Color(133, 153, 0));
+    this->m_scoreText->setPosition(sf::Vector2f(0, -72));
+
+    this->m_timeText = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
+    this->m_timeText->setColor(sf::Color(42, 161, 152));
     //this->m_HUDTime->setPosition(sf::Vector2f(360, -72));
 
     this->m_player = std::unique_ptr<Player>(new Player(sf::Vector2f((64*8), (64*4.5)), Direction::Up));
@@ -60,8 +64,6 @@ void MatchState::start()
 
     // Position des Ziel-Quadrates zufällig festlegen
     this->randomizeTargetPosition();
-
-    this->m_isActive = true;
 }
 
 void MatchState::stop()
@@ -74,15 +76,12 @@ void MatchState::stop()
     this->m_overallTime.release();
     this->m_field.release();
     this->m_fieldPoints.clear();
-    this->m_HUDScore.release();
-    this->m_HUDTime.release();
+    this->m_keyboardCommands.release();
+    this->m_scoreText.release();
+    this->m_timeText.release();
     this->m_player.release();
     this->m_target.release();
-    //this->m_distributionX.release();
-    //this->m_distributionY.release();
-    //this->m_engine.release();
 
-    this->m_isActive = false;
 }
 
 void MatchState::pause()
@@ -90,8 +89,6 @@ void MatchState::pause()
     DebugOutput::gameState("MatchState", "pause");
 
     *this->m_additionalTime += this->m_clock->getElapsedTime();
-
-    this->m_isPaused = true;
 }
 
 void MatchState::resume()
@@ -99,8 +96,6 @@ void MatchState::resume()
     DebugOutput::gameState("MatchState", "resume");
 
     this->m_clock->restart();
-
-    this->m_isPaused = false;
 }
 
 void MatchState::handleEvent(const sf::Event &event)
@@ -116,7 +111,7 @@ void MatchState::handleEvent(const sf::Event &event)
             stateEvent.type = StateEvent::EventType::PopState;
             this->addStateEvent(stateEvent);
             break;
-        case sf::Keyboard::P:
+        case sf::Keyboard::Space:
             stateEvent.type = StateEvent::EventType::PushState;
             stateEvent.data = StateEvent::StateChangeEvent("PauseState");
             this->addStateEvent(stateEvent);
@@ -200,11 +195,11 @@ void MatchState::update()
     }
 
     // Punkt- und Zeitanzeigen
-    this->m_HUDScore->setString(boost::lexical_cast<std::string>(static_cast<int>(this->m_score)));
+    this->m_scoreText->setString(boost::lexical_cast<std::string>(static_cast<int>(this->m_score)));
     // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
-    this->m_HUDTime->setString(boost::lexical_cast<std::string>(static_cast<int>(this->m_overallTime->asSeconds())));
+    this->m_timeText->setString(boost::lexical_cast<std::string>(static_cast<int>(this->m_overallTime->asSeconds())));
     // Position von Zeitanzeige aktualisieren
-    this->m_HUDTime->setPosition(sf::Vector2f(1024-this->m_HUDTime->getLocalBounds().width, -72));
+    this->m_timeText->setPosition(sf::Vector2f(1024-this->m_timeText->getLocalBounds().width, -72));
 
     // Spieler aktualisieren
     this->m_player->update(elapsedTime);
@@ -246,8 +241,9 @@ void MatchState::draw(sf::RenderTarget &renderTarget)
     {
         renderTarget.draw(d);
     }
-    renderTarget.draw(*this->m_HUDScore);
-    renderTarget.draw(*this->m_HUDTime);
+    renderTarget.draw(*this->m_keyboardCommands);
+    renderTarget.draw(*this->m_scoreText);
+    renderTarget.draw(*this->m_timeText);
     renderTarget.draw(*this->m_player);
     renderTarget.draw(*this->m_target);
 }

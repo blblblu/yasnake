@@ -13,6 +13,8 @@
 #include "debugoutput.hpp"
 #include "gamestate.hpp"
 
+class GameState;
+
 class StateManager
 {
 public:

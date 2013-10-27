@@ -30,15 +30,13 @@ void ScoreState::start()
     this->m_highscoreText->setColor(sf::Color(133, 153, 0));
     this->m_highscoreText->setPosition(sf::Vector2f(30, 140));
 
-    this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Ent] fortfahren", *this->m_sourceSansPro, 20));
+    this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Enter] fortfahren", *this->m_sourceSansPro, 20));
     this->m_keyboardCommands->setColor(sf::Color(38, 139, 210));
     this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(720-90));
 
     this->m_scoreText = std::unique_ptr<sf::Text>(new sf::Text("Punktzahl: "+boost::lexical_cast<std::string>(this->m_score), *this->m_sourceSansPro, 40));
     this->m_scoreText->setColor(sf::Color(181, 137, 0));
     this->m_scoreText->setPosition(sf::Vector2f(30, 95));
-
-    this->m_isActive = true;
 }
 
 void ScoreState::stop()
@@ -50,22 +48,16 @@ void ScoreState::stop()
     this->m_highscoreText.release();
     this->m_keyboardCommands.release();
     this->m_scoreText.release();
-
-    this->m_isActive = false;
 }
 
 void ScoreState::pause()
 {
     DebugOutput::gameState("ScoreState", "pause");
-
-    this->m_isPaused = true;
 }
 
 void ScoreState::resume()
 {
     DebugOutput::gameState("ScoreState", "resume");
-
-    this->m_isPaused = false;
 }
 
 void ScoreState::handleEvent(const sf::Event &event)
@@ -87,7 +79,7 @@ void ScoreState::handleEvent(const sf::Event &event)
 
 sf::View ScoreState::resize(const unsigned int x, const unsigned int y)
 {
-    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(y-90));
+    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(y-30-this->m_keyboardCommands->getLocalBounds().height));
 
     return sf::View(sf::Vector2f(x/2.f, y/2.f), sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
 }
