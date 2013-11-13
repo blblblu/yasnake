@@ -1,9 +1,9 @@
 #include "game.hpp"
 
-Game::Game(sf::VideoMode videoMode, const std::string &title)
+Game::Game()
 {
     DebugOutput::game("initialization");
-    this->create(videoMode, title);
+    this->create(sf::VideoMode(1280, 720), "Snake");
 
     // vorhandene Gamestates dem Statemanager bekanntmachen
     this->m_stateManager.addState("MatchState", new MatchState());

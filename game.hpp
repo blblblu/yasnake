@@ -22,7 +22,7 @@ class StateManager;
 class Game
 {
 public:
-    Game(sf::VideoMode videoMode, const std::string &title);
+    Game();
     ~Game();
 
     void create(sf::VideoMode videoMode, const std::string &title);

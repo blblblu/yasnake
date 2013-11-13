@@ -22,7 +22,6 @@ void MatchState::start()
     this->m_clock = std::unique_ptr<sf::Clock>(new sf::Clock());
     this->m_clock->restart();
 
-    this->m_additionalTime = std::unique_ptr<sf::Time>(new sf::Time());
     this->m_overallTime = std::unique_ptr<sf::Time>(new sf::Time());
 
     //this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
@@ -72,7 +71,6 @@ void MatchState::stop()
 
     this->m_sourceSansPro.release();
     this->m_clock.release();
-    this->m_additionalTime.release();
     this->m_overallTime.release();
     this->m_field.release();
     this->m_fieldPoints.clear();
@@ -87,8 +85,6 @@ void MatchState::stop()
 void MatchState::pause()
 {
     DebugOutput::gameState("MatchState", "pause");
-
-    *this->m_additionalTime += this->m_clock->getElapsedTime();
 }
 
 void MatchState::resume()

@@ -12,9 +12,9 @@ StateManager::~StateManager()
     // alle Gamestates löschen und entfernen
     while(!this->m_activeStates.empty())
     {
-        this->m_activeStates.back()->stop();
-        this->m_activeStates.back()->m_isActive = false;
-        this->m_activeStates.pop_back();
+        this->m_activeStates.top()->stop();
+        this->m_activeStates.top()->m_isActive = false;
+        this->m_activeStates.pop();
     }
 }
 
@@ -49,9 +49,9 @@ void StateManager::replaceState(const std::string id)
     // derzeitigen Gamestate aus Liste der aktiven Gamestates entfernen
     if(!this->m_activeStates.empty())
     {
-        this->m_activeStates.back()->stop();
-        this->m_activeStates.back()->m_isActive = false;
-        this->m_activeStates.pop_back();
+        this->m_activeStates.top()->stop();
+        this->m_activeStates.top()->m_isActive = false;
+        this->m_activeStates.pop();
     }
 
     // prüfen, ob Gamestate mit id überhaupt existiert (und ggf. Exception werfen)
@@ -66,11 +66,11 @@ void StateManager::replaceState(const std::string id)
     }
 
     // neuen Gamestate einfügen
-    this->m_activeStates.push_back(this->m_statesById[id].get());
+    this->m_activeStates.push(this->m_statesById[id].get());
 
     // neuen Gamestate starten
-    this->m_activeStates.back()->start();
-    this->m_activeStates.back()->m_isActive = true;
+    this->m_activeStates.top()->start();
+    this->m_activeStates.top()->m_isActive = true;
 
     DebugOutput::stateManager("changed active state to state \"" + id + "\"");
 }
@@ -82,8 +82,8 @@ void StateManager::pushState(const std::string id)
     // derzeitigen Gamestate pausieren
     if(!this->m_activeStates.empty())
     {
-        this->m_activeStates.back()->pause();
-        this->m_activeStates.back()->m_isPaused = true;
+        this->m_activeStates.top()->pause();
+        this->m_activeStates.top()->m_isPaused = true;
     }
 
     // prüfen, ob Gamestate mit id überhaupt existiert (und ggf. Exception werfen)
@@ -98,11 +98,11 @@ void StateManager::pushState(const std::string id)
     }
 
     // neuen Gamestate einfügen
-    this->m_activeStates.push_back(this->m_statesById[id].get());
+    this->m_activeStates.push(this->m_statesById[id].get());
 
     // neuen Gamestate starten
-    this->m_activeStates.back()->start();
-    this->m_activeStates.back()->m_isActive = true;
+    this->m_activeStates.top()->start();
+    this->m_activeStates.top()->m_isActive = true;
 
     DebugOutput::stateManager("added state \"" + id + "\" as active state");
 }
@@ -114,16 +114,16 @@ void StateManager::popState()
     // derzeitigen Gamestate aus Liste der aktiven Gamestates entfernen
     if(!this->m_activeStates.empty())
     {
-        this->m_activeStates.back()->stop();
-        this->m_activeStates.back()->m_isActive = false;
-        this->m_activeStates.pop_back();
+        this->m_activeStates.top()->stop();
+        this->m_activeStates.top()->m_isActive = false;
+        this->m_activeStates.pop();
     }
 
     // vorherigen Gamestate weiterführen
     if(!this->m_activeStates.empty())
     {
-        this->m_activeStates.back()->resume();
-        this->m_activeStates.back()->m_isPaused = false;
+        this->m_activeStates.top()->resume();
+        this->m_activeStates.top()->m_isPaused = false;
     }
 }
 
@@ -133,7 +133,7 @@ GameState *StateManager::backActive()
     if(this->m_activeStates.empty())
         throw std::runtime_error("Vector of active Gamestates is empty");
 
-    return this->m_activeStates.back();
+    return this->m_activeStates.top();
 }
 
 GameState *StateManager::getState(const std::string &id)

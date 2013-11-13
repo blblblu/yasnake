@@ -38,7 +38,6 @@ private:
     std::unique_ptr<sf::Font> m_sourceSansPro;
 
     std::unique_ptr<sf::Clock> m_clock;
-    std::unique_ptr<sf::Time> m_additionalTime; // für korrekte Zeitberechnung trotz etwaiger Pause
     std::unique_ptr<sf::Time> m_overallTime;
 
     std::unique_ptr<sf::RectangleShape> m_field;

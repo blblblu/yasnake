@@ -7,7 +7,7 @@
 using namespace std;
 
 int main(int /*argc*/, char* /*argv[]*/) {
-    Game game(sf::VideoMode(1280, 720), "Snake");
+    Game game;
 
     while(game.isOpen())
         game.loop();

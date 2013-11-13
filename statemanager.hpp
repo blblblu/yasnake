@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include <stack>
+
 #include <SFML/Graphics.hpp>
 
 #include "debugoutput.hpp"
@@ -27,13 +29,13 @@ public:
     void pushState(const std::string id);
     void popState();
 
-    GameState *backActive();
+    GameState *topActive();
     GameState *getState(const std::string &id);
     bool emptyActive();
 
 private:
     std::map<std::string, std::unique_ptr<GameState> > m_statesById;
-    std::vector<GameState*> m_activeStates;
+    std::stack<GameState*> m_activeStates;
 };
 
 #endif // STATEMANAGER_H
