@@ -29,7 +29,7 @@ public:
     void pushState(const std::string id);
     void popState();
 
-    GameState *topActive();
+    GameState *backActive();
     GameState *getState(const std::string &id);
     bool emptyActive();
 

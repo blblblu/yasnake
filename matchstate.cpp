@@ -128,6 +128,8 @@ void MatchState::handleEvent(const sf::Event &event)
             if(this->m_player->getDirection() != Direction::Left && this->m_player->getDirection() != Direction::Right)
                 this->m_player->changeDirection(Direction::Right);
             break;
+        default:
+            break;
         }
         break;
     default:
