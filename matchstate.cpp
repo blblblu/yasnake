@@ -111,6 +111,7 @@ void MatchState::handleEvent(const sf::Event &event)
             stateEvent.type = StateEvent::EventType::PushState;
             stateEvent.data = StateEvent::StateChangeEvent("PauseState");
             this->addStateEvent(stateEvent);
+            break;
         // Spielersteuerung
         case sf::Keyboard::Up:
             if(this->m_player->getDirection() != Direction::Up && this->m_player->getDirection() != Direction::Down)
