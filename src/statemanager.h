@@ -1,9 +1,7 @@
 #pragma once
 
-#include "debugoutput.hpp"
-#include "gamestate.hpp"
-
-#include <stack>
+#include "debugoutput.h"
+#include "gamestate.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -11,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <stdexcept>
+#include <stack>
 #include <string>
 #include <vector>
 

@@ -3,7 +3,6 @@
 #include "gamestate.h"
 #include "player.h"
 
-#include <boost/lexical_cast.hpp>
 #include <SFML/System.hpp>
 
 #include <cmath>

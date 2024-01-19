@@ -1,6 +1,6 @@
 #pragma once
 
-#include "direction.hpp"
+#include "direction.h"
 
 #include <SFML/Graphics.hpp>
 #include <stdexcept>

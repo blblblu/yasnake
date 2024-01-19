@@ -1,8 +1,7 @@
 #pragma once
 
-#include <boost/variant.hpp>
-
 #include <string>
+#include <variant>
 
 class StateEvent
 {
@@ -33,5 +32,5 @@ public:
 
     EventType type;
 
-    boost::variant<StateChangeEvent, SubmitScoreEvent> data;
+    std::variant<StateChangeEvent, SubmitScoreEvent> data;
 };

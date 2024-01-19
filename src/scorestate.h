@@ -1,8 +1,6 @@
 #pragma once
 
-#include "gamestate.hpp"
-
-#include <boost/lexical_cast.hpp>
+#include "gamestate.h"
 
 #include <memory>
 
