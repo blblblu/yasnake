@@ -1,5 +1,7 @@
 #include "pausestate.h"
 
+#include <debugoutput.h>
+
 #include <sstream>
 
 PauseState::PauseState() : GameState()
@@ -20,12 +22,11 @@ void PauseState::start()
     m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
 
     m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Leer] Spiel fortsetzen", *m_sourceSansPro, 20));
-    m_keyboardCommands->setColor(sf::Color(38, 139, 210));
+    m_keyboardCommands->setFillColor(sf::Color(38, 139, 210));
     m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(720-90));
 
     m_text = std::unique_ptr<sf::Text>(new sf::Text("PAUSE", *m_sourceSansPro, 80));
-    m_text->setColor(sf::Color(133, 153, 0));
-    // doppeltes Umwandeln, um Unschärfe zu vermeiden
+    m_text->setFillColor(sf::Color(133, 153, 0));
     m_text->setPosition(static_cast<float>(static_cast<int>((1280-m_text->getLocalBounds().width)/2.f)), static_cast<float>(static_cast<int>((720-m_text->getLocalBounds().height)/2.f)));
 }
 

@@ -1,18 +1,10 @@
 #pragma once
 
-#include "debugoutput.h"
-#include "stateevent.h"
-#include "statemanager.h"
+#include <stateevent.h>
 
 #include <SFML/Graphics.hpp>
 
-
-#include <deque>
 #include <queue>
-#include <string>
-
-
-
 
 class StateManager;
 

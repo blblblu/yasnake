@@ -1,13 +1,12 @@
 #include "scorestate.h"
 
+#include <debugoutput.h>
+
 #include <sstream>
 
-ScoreState::ScoreState() : GameState()
+ScoreState::ScoreState() : GameState(), m_highscore{0}, m_score{0}
 {
     DebugOutput::gameState("ScoreState", "initialization");
-
-    m_highscore = 0;
-    m_score = 0;
 }
 
 ScoreState::~ScoreState()
@@ -102,7 +101,6 @@ void ScoreState::updateScore(const unsigned int highscore, const unsigned int sc
     m_highscore = highscore;
     m_score = score;
 
-    // wenn Gamestate aktiv ist, Text aktualisieren
     if (isActive())
     {
         m_highscoreText->setString("Highscore: " + std::to_string(m_highscore));

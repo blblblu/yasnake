@@ -1,5 +1,7 @@
 #include "menustate.h"
 
+#include <debugoutput.h>
+
 #include <sstream>
 
 MenuState::MenuState() : GameState()

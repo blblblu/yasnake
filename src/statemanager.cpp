@@ -1,5 +1,7 @@
 #include "statemanager.h"
 
+#include <debugoutput.h>
+
 StateManager::StateManager()
 {
     DebugOutput::stateManager("initialization");

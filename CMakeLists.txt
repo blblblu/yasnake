@@ -10,6 +10,8 @@ FetchContent_Declare(SFML
     GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
 
+include_directories(src)
+
 add_executable(yasnake 
     src/main.cpp
     src/game.cpp

@@ -1,9 +1,8 @@
 #include "gamestate.h"
 
 GameState::GameState()
+    : m_isActive{false}, m_isPaused{false}
 {
-    m_isActive = false;
-    m_isPaused = false;
 }
 
 bool GameState::isActive()
@@ -18,7 +17,7 @@ bool GameState::isPaused()
 
 bool GameState::pollStateEvent(StateEvent &stateEvent)
 {
-    if(!m_stateEvents.empty())
+    if (!m_stateEvents.empty())
     {
         stateEvent = m_stateEvents.front();
         m_stateEvents.pop();

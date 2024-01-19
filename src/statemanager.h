@@ -1,17 +1,9 @@
 #pragma once
 
-#include "debugoutput.h"
-#include "gamestate.h"
+#include <gamestate.h>
 
-#include <SFML/Graphics.hpp>
-
-#include <iostream>
-#include <map>
 #include <memory>
-#include <stdexcept>
 #include <stack>
-#include <string>
-#include <vector>
 
 class GameState;
 

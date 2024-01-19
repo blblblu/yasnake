@@ -1,20 +1,8 @@
 #pragma once
 
-#include <fstream>
-#include <iostream>
-#include <stdexcept>
+#include <statemanager.h>
 
 #include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-
-#include "debugoutput.h"
-#include "menustate.h"
-#include "matchstate.h"
-#include "pausestate.h"
-#include "scorestate.h"
-#include "stateevent.h"
-#include "statemanager.h"
 
 class StateManager;
 

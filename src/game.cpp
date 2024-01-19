@@ -1,28 +1,33 @@
 #include "game.h"
 
+#include <debugoutput.h>
+#include <matchstate.h>
+#include <menustate.h>
+#include <pausestate.h>
+#include <scorestate.h>
+
+#include <fstream>
+
 Game::Game()
+    : m_highscore{0}, m_lastScore{0}
 {
     DebugOutput::game("initialization");
     create(sf::VideoMode(1280, 720), "Snake");
 
-    // vorhandene Gamestates dem Statemanager bekanntmachen
+    // add all existing game states
     m_stateManager.addState("MatchState", new MatchState());
     m_stateManager.addState("MenuState", new MenuState());
     m_stateManager.addState("PauseState", new PauseState());
     m_stateManager.addState("ScoreState", new ScoreState());
 
-    // Hauptmenü laden
+    // load main menu
     m_stateManager.pushState("MenuState");
     m_window.setView(m_stateManager.backActive()->resize(m_window.getSize().x, m_window.getSize().y));
 
-    // Punktstände auf 0 setzen
-    m_highscore = 0;
-    m_lastScore = 0;
-
-    // Highscore aus Datei laden, wenn diese vorhanden ist
+    // load highscore from file
     std::ifstream input;
     input.open("score.save", std::ios::binary | std::ios::in);
-    if (input) // zum Abfangen von Fehlern, z.B. falls Spielstand noch nicht besteht
+    if (input)
     {
         input >> m_highscore;
     }
@@ -49,12 +54,13 @@ void Game::close()
 
 void Game::loop()
 {
-    // Fenster schließen, wenn kein GameState mehr aktiv ist
+    // close window if no game state is active anymore
     if (m_stateManager.emptyActive())
+    {
         close();
+    }
     else
     {
-        // TODO: Reihenfolge berichtigen
         handleEvents();
         update();
         draw();
@@ -76,23 +82,22 @@ void Game::handleStateEvents()
         {
         case StateEvent::EventType::ReplaceState:
             m_stateManager.replaceState(std::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
-            // View zurücksetzen
             m_window.setView(m_stateManager.backActive()->resize(m_window.getSize().x, m_window.getSize().y));
             break;
         case StateEvent::EventType::PushState:
             m_stateManager.pushState(std::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
-            // View zurücksetzen
             m_window.setView(m_stateManager.backActive()->resize(m_window.getSize().x, m_window.getSize().y));
             break;
         case StateEvent::EventType::PopState:
             m_stateManager.popState();
-            // View zurücksetzen
             if (!m_stateManager.emptyActive())
+            {
                 m_window.setView(m_stateManager.backActive()->resize(m_window.getSize().x, m_window.getSize().y));
+            }
             break;
         case StateEvent::EventType::SubmitScoreEvent:
             submitScore(std::get<StateEvent::SubmitScoreEvent>(stateEvent.data).score);
-            // neue Punktzahl dem ScoreState übergeben
+
             GameState *state;
             state = m_stateManager.getState("ScoreState");
             ScoreState *scoreState;
@@ -102,9 +107,10 @@ void Game::handleStateEvents()
         default:
             break;
         }
-        // Automatisch aufhören, sobald kein GameState mehr aktiv ist
         if (m_stateManager.emptyActive())
+        {
             break;
+        }
     }
 }
 
@@ -114,9 +120,13 @@ void Game::handleEvents()
     while (m_window.pollEvent(event))
     {
         if (event.type == sf::Event::Closed)
+        {
             m_window.close();
+        }
         if (event.type == sf::Event::Resized)
+        {
             m_window.setView(m_stateManager.backActive()->resize(event.size.width, event.size.height));
+        }
 
         m_stateManager.backActive()->handleEvent(event);
     }
@@ -137,7 +147,7 @@ void Game::draw()
 void Game::submitScore(const unsigned int score)
 {
     m_lastScore = score;
-    // Punktzahl speichern, wenn sie der neue Bestwert ist
+
     if (score > m_highscore)
     {
         m_highscore = score;

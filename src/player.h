@@ -1,6 +1,6 @@
 #pragma once
 
-#include "direction.h"
+#include <direction.h>
 
 #include <SFML/Graphics.hpp>
 #include <stdexcept>
@@ -10,7 +10,7 @@
 class Player : public sf::Drawable
 {
 public:
-    struct PlayerLineElement // TODO: besserer Name
+    struct PlayerLineElement
     {
         PlayerLineElement(sf::RectangleShape line, Direction direction) : line(line), direction(direction) {}
         float getLength()

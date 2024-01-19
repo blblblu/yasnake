@@ -1,13 +1,10 @@
 #pragma once
 
-#include "gamestate.h"
-#include "player.h"
+#include <gamestate.h>
+#include <player.h>
 
 #include <SFML/System.hpp>
 
-#include <cmath>
-#include <ctime>
-#include <iostream>
 #include <memory>
 #include <random>
 
@@ -48,7 +45,7 @@ private:
     std::unique_ptr<Player> m_player;
     std::unique_ptr<sf::RectangleShape> m_target;
 
-    std::uniform_int_distribution<> m_distributionX; // Zahlenverteilung betreffend x-Achse
-    std::uniform_int_distribution<> m_distributionY; // Zahlenverteilung betreffend x-Achse
-    std::mt19937 m_engine;                           // Mersenne-Twister
+    std::uniform_int_distribution<> m_distributionX;
+    std::uniform_int_distribution<> m_distributionY;
+    std::mt19937 m_engine;
 };

@@ -1,5 +1,7 @@
 #include "matchstate.h"
 
+#include <debugoutput.h>
+
 MatchState::MatchState() : GameState(), m_distributionX(std::uniform_int_distribution<>(0, 4 * 16 - 1)), m_distributionY(std::uniform_int_distribution<>(0, 4 * 9 - 1))
 {
     DebugOutput::gameState("MatchState", "initialization");
@@ -24,14 +26,9 @@ void MatchState::start()
 
     m_overallTime = std::unique_ptr<sf::Time>(new sf::Time());
 
-    // _field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
-    //  TODO
     m_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f((64 * 16), (64 * 9))));
     m_field->setFillColor(sf::Color(238, 232, 213));
-    // _field->setOutlineColor(sf::Color(181, 137, 0));
-    // _field->setOutlineThickness(2);
 
-    // TODO vielleicht besser mit Konstanten lösen...
     for (int i = 1; i < 16; i++)
     {
         for (int j = 1; j < 9; j++)
@@ -53,7 +50,6 @@ void MatchState::start()
 
     m_timeText = std::unique_ptr<sf::Text>(new sf::Text("", *m_sourceSansPro, 60));
     m_timeText->setFillColor(sf::Color(42, 161, 152));
-    // m_HUDTime->setPosition(sf::Vector2f(360, -72));
 
     m_player = std::unique_ptr<Player>(new Player(sf::Vector2f((64 * 8), (64 * 4.5)), Direction::Up));
     m_target = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(16, 16)));
@@ -61,7 +57,6 @@ void MatchState::start()
 
     m_engine.seed(static_cast<unsigned long>(time(NULL)));
 
-    // Position des Ziel-Quadrates zufällig festlegen
     randomizeTargetPosition();
 }
 

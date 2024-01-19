@@ -6,12 +6,14 @@
 
 using namespace std;
 
-int main(/*int argc, char* argv[]*/)
+int main()
 {
     Game game;
 
     while (game.isOpen())
+    {
         game.loop();
+    }
 
     return 0;
 }
