@@ -1,3 +1,0 @@
-- mehr kommentare
-- in klasse gameengine exception mit boost.exception ersetzen
-- in resize-funktionen vectoren besser umwandeln (anstatt .x und .y)
