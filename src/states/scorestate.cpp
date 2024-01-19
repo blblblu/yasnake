@@ -21,19 +21,19 @@ void ScoreState::start()
     m_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
     m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
 
-    m_heading = std::unique_ptr<sf::Text>(new sf::Text("Game Over", *m_sourceSansPro, 60));
+    m_heading = std::unique_ptr<sf::Text>(new sf::Text("game over", *m_sourceSansPro, 60));
     m_heading->setFillColor(sf::Color(220, 50, 47));
     m_heading->setPosition(sf::Vector2f(30, 10));
 
-    m_highscoreText = std::unique_ptr<sf::Text>(new sf::Text("Highscore: " + std::to_string(m_highscore), *m_sourceSansPro, 40));
+    m_highscoreText = std::unique_ptr<sf::Text>(new sf::Text("highscore: " + std::to_string(m_highscore), *m_sourceSansPro, 40));
     m_highscoreText->setFillColor(sf::Color(133, 153, 0));
     m_highscoreText->setPosition(sf::Vector2f(30, 140));
 
-    m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Enter] fortfahren", *m_sourceSansPro, 20));
+    m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[enter] continue", *m_sourceSansPro, 20));
     m_keyboardCommands->setFillColor(sf::Color(38, 139, 210));
     m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(720 - 90));
 
-    m_scoreText = std::unique_ptr<sf::Text>(new sf::Text("Punktzahl: " + std::to_string(m_score), *m_sourceSansPro, 40));
+    m_scoreText = std::unique_ptr<sf::Text>(new sf::Text("score: " + std::to_string(m_score), *m_sourceSansPro, 40));
     m_scoreText->setFillColor(sf::Color(181, 137, 0));
     m_scoreText->setPosition(sf::Vector2f(30, 95));
 }
@@ -103,7 +103,7 @@ void ScoreState::updateScore(const unsigned int highscore, const unsigned int sc
 
     if (isActive())
     {
-        m_highscoreText->setString("Highscore: " + std::to_string(m_highscore));
-        m_scoreText->setString("Punktzahl: " + std::to_string(m_score));
+        m_highscoreText->setString("highscore: " + std::to_string(m_highscore));
+        m_scoreText->setString("score: " + std::to_string(m_score));
     }
 }

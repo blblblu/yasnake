@@ -21,7 +21,7 @@ void PauseState::start()
     m_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
     m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
 
-    m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Leer] Spiel fortsetzen", *m_sourceSansPro, 20));
+    m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[space] continue game", *m_sourceSansPro, 20));
     m_keyboardCommands->setFillColor(sf::Color(38, 139, 210));
     m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(720-90));
 

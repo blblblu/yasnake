@@ -29,7 +29,7 @@ void MenuState::start()
     m_name->setFillColor(sf::Color(42, 161, 152));
     m_name->setPosition(sf::Vector2f(30, 75));
 
-    m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Enter] - neues Spiel\n[Escape] - Spiel beenden", *m_sourceSansPro, 20));
+    m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[enter] - new game\n[escape] - end game", *m_sourceSansPro, 20));
     m_keyboardCommands->setFillColor(sf::Color(38, 139, 210));
     m_keyboardCommands->setPosition(sf::Vector2f(30, 530));
 }
