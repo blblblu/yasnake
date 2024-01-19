@@ -14,22 +14,22 @@ void MatchState::start()
 {
     DebugOutput::gameState("MatchState", "start");
 
-    this->m_score = 0;
+    m_score = 0;
 
-    this->m_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
-    this->m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
+    m_sourceSansPro = std::unique_ptr<sf::Font>(new sf::Font());
+    m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
 
-    this->m_clock = std::unique_ptr<sf::Clock>(new sf::Clock());
-    this->m_clock->restart();
+    m_clock = std::unique_ptr<sf::Clock>(new sf::Clock());
+    m_clock->restart();
 
-    this->m_overallTime = std::unique_ptr<sf::Time>(new sf::Time());
+    m_overallTime = std::unique_ptr<sf::Time>(new sf::Time());
 
-    // this->_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
+    // _field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(700, 400)));
     //  TODO
-    this->m_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f((64 * 16), (64 * 9))));
-    this->m_field->setFillColor(sf::Color(238, 232, 213));
-    // this->_field->setOutlineColor(sf::Color(181, 137, 0));
-    // this->_field->setOutlineThickness(2);
+    m_field = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f((64 * 16), (64 * 9))));
+    m_field->setFillColor(sf::Color(238, 232, 213));
+    // _field->setOutlineColor(sf::Color(181, 137, 0));
+    // _field->setOutlineThickness(2);
 
     // TODO vielleicht besser mit Konstanten lösen...
     for (int i = 1; i < 16; i++)
@@ -39,46 +39,46 @@ void MatchState::start()
             sf::RectangleShape r = sf::RectangleShape(sf::Vector2f(2, 2));
             r.setPosition(static_cast<float>((i * 64) - 1), static_cast<float>((j * 64) - 1));
             r.setFillColor(sf::Color(181, 137, 0));
-            this->m_fieldPoints.push_back(r);
+            m_fieldPoints.push_back(r);
         }
     }
 
-    this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Leer] Spiel pausieren", *this->m_sourceSansPro, 20));
-    this->m_keyboardCommands->setFillColor(sf::Color(38, 139, 210));
-    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(720 - 72 - 30 - this->m_keyboardCommands->getLocalBounds().height));
+    m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Leer] Spiel pausieren", *m_sourceSansPro, 20));
+    m_keyboardCommands->setFillColor(sf::Color(38, 139, 210));
+    m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(720 - 72 - 30 - m_keyboardCommands->getLocalBounds().height));
 
-    this->m_scoreText = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
-    this->m_scoreText->setFillColor(sf::Color(133, 153, 0));
-    this->m_scoreText->setPosition(sf::Vector2f(0, -72));
+    m_scoreText = std::unique_ptr<sf::Text>(new sf::Text("", *m_sourceSansPro, 60));
+    m_scoreText->setFillColor(sf::Color(133, 153, 0));
+    m_scoreText->setPosition(sf::Vector2f(0, -72));
 
-    this->m_timeText = std::unique_ptr<sf::Text>(new sf::Text("", *this->m_sourceSansPro, 60));
-    this->m_timeText->setFillColor(sf::Color(42, 161, 152));
-    // this->m_HUDTime->setPosition(sf::Vector2f(360, -72));
+    m_timeText = std::unique_ptr<sf::Text>(new sf::Text("", *m_sourceSansPro, 60));
+    m_timeText->setFillColor(sf::Color(42, 161, 152));
+    // m_HUDTime->setPosition(sf::Vector2f(360, -72));
 
-    this->m_player = std::unique_ptr<Player>(new Player(sf::Vector2f((64 * 8), (64 * 4.5)), Direction::Up));
-    this->m_target = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(16, 16)));
-    this->m_target->setFillColor(sf::Color(38, 139, 210));
+    m_player = std::unique_ptr<Player>(new Player(sf::Vector2f((64 * 8), (64 * 4.5)), Direction::Up));
+    m_target = std::unique_ptr<sf::RectangleShape>(new sf::RectangleShape(sf::Vector2f(16, 16)));
+    m_target->setFillColor(sf::Color(38, 139, 210));
 
-    this->m_engine.seed(static_cast<unsigned long>(time(NULL)));
+    m_engine.seed(static_cast<unsigned long>(time(NULL)));
 
     // Position des Ziel-Quadrates zufällig festlegen
-    this->randomizeTargetPosition();
+    randomizeTargetPosition();
 }
 
 void MatchState::stop()
 {
     DebugOutput::gameState("MatchState", "stop");
 
-    this->m_sourceSansPro.release();
-    this->m_clock.release();
-    this->m_overallTime.release();
-    this->m_field.release();
-    this->m_fieldPoints.clear();
-    this->m_keyboardCommands.release();
-    this->m_scoreText.release();
-    this->m_timeText.release();
-    this->m_player.release();
-    this->m_target.release();
+    m_sourceSansPro.release();
+    m_clock.release();
+    m_overallTime.release();
+    m_field.release();
+    m_fieldPoints.clear();
+    m_keyboardCommands.release();
+    m_scoreText.release();
+    m_timeText.release();
+    m_player.release();
+    m_target.release();
 }
 
 void MatchState::pause()
@@ -90,7 +90,7 @@ void MatchState::resume()
 {
     DebugOutput::gameState("MatchState", "resume");
 
-    this->m_clock->restart();
+    m_clock->restart();
 }
 
 void MatchState::handleEvent(const sf::Event &event)
@@ -104,29 +104,29 @@ void MatchState::handleEvent(const sf::Event &event)
         {
         case sf::Keyboard::Q:
             stateEvent.type = StateEvent::EventType::PopState;
-            this->addStateEvent(stateEvent);
+            addStateEvent(stateEvent);
             break;
         case sf::Keyboard::Space:
             stateEvent.type = StateEvent::EventType::PushState;
             stateEvent.data = StateEvent::StateChangeEvent("PauseState");
-            this->addStateEvent(stateEvent);
+            addStateEvent(stateEvent);
             break;
         // Spielersteuerung
         case sf::Keyboard::Up:
-            if (this->m_player->getDirection() != Direction::Up && this->m_player->getDirection() != Direction::Down)
-                this->m_player->changeDirection(Direction::Up);
+            if (m_player->getDirection() != Direction::Up && m_player->getDirection() != Direction::Down)
+                m_player->changeDirection(Direction::Up);
             break;
         case sf::Keyboard::Down:
-            if (this->m_player->getDirection() != Direction::Up && this->m_player->getDirection() != Direction::Down)
-                this->m_player->changeDirection(Direction::Down);
+            if (m_player->getDirection() != Direction::Up && m_player->getDirection() != Direction::Down)
+                m_player->changeDirection(Direction::Down);
             break;
         case sf::Keyboard::Left:
-            if (this->m_player->getDirection() != Direction::Left && this->m_player->getDirection() != Direction::Right)
-                this->m_player->changeDirection(Direction::Left);
+            if (m_player->getDirection() != Direction::Left && m_player->getDirection() != Direction::Right)
+                m_player->changeDirection(Direction::Left);
             break;
         case sf::Keyboard::Right:
-            if (this->m_player->getDirection() != Direction::Left && this->m_player->getDirection() != Direction::Right)
-                this->m_player->changeDirection(Direction::Right);
+            if (m_player->getDirection() != Direction::Left && m_player->getDirection() != Direction::Right)
+                m_player->changeDirection(Direction::Right);
             break;
         default:
             break;
@@ -174,81 +174,81 @@ sf::View MatchState::resize(const unsigned int x, const unsigned int y)
 
 void MatchState::update()
 {
-    // this->_time->setString(intToString((this->_clock->getElapsedTime() + *this->_additionalTime).asSeconds()));
+    // _time->setString(intToString((_clock->getElapsedTime() + *_additionalTime).asSeconds()));
 
     // Berechnung der Bildfrequenz
     // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
-    // this->m_HUDScore->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / this->m_clock->getElapsedTime().asSeconds())));
+    // m_HUDScore->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / m_clock->getElapsedTime().asSeconds())));
 
     // vergangene Zeit tempörär abspeichern, um fehlerhafte Berechnungen zu vermeiden, anschließend Uhr zurücksetzen
-    sf::Time elapsedTime = this->m_clock->getElapsedTime();
-    this->m_clock->restart();
+    sf::Time elapsedTime = m_clock->getElapsedTime();
+    m_clock->restart();
 
     // Zeit und Punktzahl aktualisieren, wenn Spieler noch am Leben ist
-    if (this->m_player->isAlive())
+    if (m_player->isAlive())
     {
-        this->m_score += 0.0001 * elapsedTime.asSeconds() * std::pow(this->m_player->getMaximumLength(), 2);
-        *this->m_overallTime += elapsedTime;
+        m_score += 0.0001 * elapsedTime.asSeconds() * std::pow(m_player->getMaximumLength(), 2);
+        *m_overallTime += elapsedTime;
     }
 
     // Punkt- und Zeitanzeigen
-    this->m_scoreText->setString(std::to_string(static_cast<int>(this->m_score)));
+    m_scoreText->setString(std::to_string(static_cast<int>(m_score)));
     // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
-    this->m_timeText->setString(std::to_string(static_cast<int>(this->m_overallTime->asSeconds())));
+    m_timeText->setString(std::to_string(static_cast<int>(m_overallTime->asSeconds())));
     // Position von Zeitanzeige aktualisieren
-    this->m_timeText->setPosition(sf::Vector2f(1024 - this->m_timeText->getLocalBounds().width, -72));
+    m_timeText->setPosition(sf::Vector2f(1024 - m_timeText->getLocalBounds().width, -72));
 
     // Spieler aktualisieren
-    this->m_player->update(elapsedTime);
+    m_player->update(elapsedTime);
     // Spieler auf Kollision mit Hindernissen überprüfen
-    if (this->m_player->firstElementIntersectsWithBoundaries())
-        this->m_player->setLifeStatus(false);
-    if (this->m_player->firstElementIntersectsWithPlayer())
-        this->m_player->setLifeStatus(false);
+    if (m_player->firstElementIntersectsWithBoundaries())
+        m_player->setLifeStatus(false);
+    if (m_player->firstElementIntersectsWithPlayer())
+        m_player->setLifeStatus(false);
     // Spieler auf Kollision mit Ziel-Quadrat überprüfen
-    if (this->m_player->isAlive())
+    if (m_player->isAlive())
     {
-        if (this->m_player->firstElementIntersectsWith(this->m_target->getGlobalBounds()))
+        if (m_player->firstElementIntersectsWith(m_target->getGlobalBounds()))
         {
-            this->m_player->setMaximumLength(1.25f * this->m_player->getMaximumLength());
-            this->randomizeTargetPosition();
+            m_player->setMaximumLength(1.25f * m_player->getMaximumLength());
+            randomizeTargetPosition();
         }
     }
     // Gamestate beenden und Punktzahl dem Spiel übergeben, wenn Spieler beendet (inaktiv) ist
-    if (!this->m_player->isActive())
+    if (!m_player->isActive())
     {
         // Punktzahl übergeben
         StateEvent scoreEvent;
         scoreEvent.type = StateEvent::EventType::SubmitScoreEvent;
-        scoreEvent.data = StateEvent::SubmitScoreEvent(static_cast<int>(this->m_score));
-        this->addStateEvent(scoreEvent);
+        scoreEvent.data = StateEvent::SubmitScoreEvent(static_cast<int>(m_score));
+        addStateEvent(scoreEvent);
         // Gamestate wechseln
         StateEvent stateChangeEvent;
         stateChangeEvent.type = StateEvent::EventType::ReplaceState;
         stateChangeEvent.data = StateEvent::StateChangeEvent("ScoreState");
-        this->addStateEvent(stateChangeEvent);
+        addStateEvent(stateChangeEvent);
     }
 }
 
 void MatchState::draw(sf::RenderTarget &renderTarget)
 {
     renderTarget.clear(sf::Color(253, 246, 227));
-    renderTarget.draw(*this->m_field);
-    for (sf::Drawable &d : this->m_fieldPoints)
+    renderTarget.draw(*m_field);
+    for (sf::Drawable &d : m_fieldPoints)
     {
         renderTarget.draw(d);
     }
-    renderTarget.draw(*this->m_keyboardCommands);
-    renderTarget.draw(*this->m_scoreText);
-    renderTarget.draw(*this->m_timeText);
-    renderTarget.draw(*this->m_player);
-    renderTarget.draw(*this->m_target);
+    renderTarget.draw(*m_keyboardCommands);
+    renderTarget.draw(*m_scoreText);
+    renderTarget.draw(*m_timeText);
+    renderTarget.draw(*m_player);
+    renderTarget.draw(*m_target);
 }
 
 void MatchState::randomizeTargetPosition()
 {
     // Position des Ziel-Quadrates zufällig festlegen
-    int newX = 16 * this->m_distributionX(this->m_engine);
-    int newY = 16 * this->m_distributionY(this->m_engine);
-    this->m_target->setPosition(sf::Vector2f(static_cast<float>(newX), static_cast<float>(newY)));
+    int newX = 16 * m_distributionX(m_engine);
+    int newY = 16 * m_distributionY(m_engine);
+    m_target->setPosition(sf::Vector2f(static_cast<float>(newX), static_cast<float>(newY)));
 }
