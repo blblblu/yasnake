@@ -106,7 +106,6 @@ void MatchState::handleEvent(const sf::Event &event)
             stateEvent.data = StateEvent::StateChangeEvent("PauseState");
             addStateEvent(stateEvent);
             break;
-        // Spielersteuerung
         case sf::Keyboard::Up:
             if (m_player->getDirection() != Direction::Up && m_player->getDirection() != Direction::Down)
                 m_player->changeDirection(Direction::Up);
@@ -134,27 +133,6 @@ void MatchState::handleEvent(const sf::Event &event)
 
 sf::View MatchState::resize(const unsigned int x, const unsigned int y)
 {
-    // return sf::View(sf::Vector2f(350, 200), sf::Vector2f(x, y));
-
-    // return sf::View(sf::Vector2f(350, 200), sf::Vector2f(800, 600));
-
-    // TODO remove...
-
-    //    unsigned int height = (1920 * y) / x;
-    //    unsigned int displace = (height - 1080) / (-2);
-    //    return sf::View(sf::FloatRect(0, displace, 1920, height));
-
-    // (1920 / 2) = 960
-    // (1080 / 2) = 540
-    // 1280 × 720
-    // / 2
-    // 640 x 360
-    //
-    // 64 * 16 = 1024
-    // 1024 / 2 = 512
-    //
-    // 64 * 9 = 576
-    // 576 / 2 = 288
     if ((static_cast<float>(x) / static_cast<float>(y)) <= (16.f / 9.f))
     {
         float z = (640.f * y) / x - 360.f;
@@ -169,38 +147,24 @@ sf::View MatchState::resize(const unsigned int x, const unsigned int y)
 
 void MatchState::update()
 {
-    // _time->setString(intToString((_clock->getElapsedTime() + *_additionalTime).asSeconds()));
-
-    // Berechnung der Bildfrequenz
-    // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
-    // m_HUDScore->setString(boost::lexical_cast<std::string>(static_cast<int>(1.f / m_clock->getElapsedTime().asSeconds())));
-
-    // vergangene Zeit tempörär abspeichern, um fehlerhafte Berechnungen zu vermeiden, anschließend Uhr zurücksetzen
     sf::Time elapsedTime = m_clock->getElapsedTime();
     m_clock->restart();
 
-    // Zeit und Punktzahl aktualisieren, wenn Spieler noch am Leben ist
     if (m_player->isAlive())
     {
         m_score += 0.0001 * elapsedTime.asSeconds() * std::pow(m_player->getMaximumLength(), 2);
         *m_overallTime += elapsedTime;
     }
 
-    // Punkt- und Zeitanzeigen
     m_scoreText->setString(std::to_string(static_cast<int>(m_score)));
-    // doppelte Datentypumwandlung, um überflüssige Dezimalstellen zu vermeiden
     m_timeText->setString(std::to_string(static_cast<int>(m_overallTime->asSeconds())));
-    // Position von Zeitanzeige aktualisieren
     m_timeText->setPosition(sf::Vector2f(1024 - m_timeText->getLocalBounds().width, -72));
 
-    // Spieler aktualisieren
     m_player->update(elapsedTime);
-    // Spieler auf Kollision mit Hindernissen überprüfen
     if (m_player->firstElementIntersectsWithBoundaries())
         m_player->setLifeStatus(false);
     if (m_player->firstElementIntersectsWithPlayer())
         m_player->setLifeStatus(false);
-    // Spieler auf Kollision mit Ziel-Quadrat überprüfen
     if (m_player->isAlive())
     {
         if (m_player->firstElementIntersectsWith(m_target->getGlobalBounds()))
@@ -209,15 +173,13 @@ void MatchState::update()
             randomizeTargetPosition();
         }
     }
-    // Gamestate beenden und Punktzahl dem Spiel übergeben, wenn Spieler beendet (inaktiv) ist
     if (!m_player->isActive())
     {
-        // Punktzahl übergeben
         StateEvent scoreEvent;
         scoreEvent.type = StateEvent::EventType::SubmitScoreEvent;
         scoreEvent.data = StateEvent::SubmitScoreEvent(static_cast<int>(m_score));
         addStateEvent(scoreEvent);
-        // Gamestate wechseln
+
         StateEvent stateChangeEvent;
         stateChangeEvent.type = StateEvent::EventType::ReplaceState;
         stateChangeEvent.data = StateEvent::StateChangeEvent("ScoreState");
@@ -242,7 +204,6 @@ void MatchState::draw(sf::RenderTarget &renderTarget)
 
 void MatchState::randomizeTargetPosition()
 {
-    // Position des Ziel-Quadrates zufällig festlegen
     int newX = 16 * m_distributionX(m_engine);
     int newY = 16 * m_distributionY(m_engine);
     m_target->setPosition(sf::Vector2f(static_cast<float>(newX), static_cast<float>(newY)));
