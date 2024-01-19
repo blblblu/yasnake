@@ -1,10 +1,10 @@
 #include "game.h"
 
 #include <debugoutput.h>
-#include <matchstate.h>
-#include <menustate.h>
-#include <pausestate.h>
-#include <scorestate.h>
+#include <states/matchstate.h>
+#include <states/menustate.h>
+#include <states/pausestate.h>
+#include <states/scorestate.h>
 
 #include <fstream>
 

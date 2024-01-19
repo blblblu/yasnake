@@ -1,6 +1,6 @@
 #pragma once
 
-#include <gamestate.h>
+#include <states/gamestate.h>
 #include <player.h>
 
 #include <SFML/System.hpp>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <gamestate.h>
+#include <states/gamestate.h>
 
 #include <memory>
 #include <stack>

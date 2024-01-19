@@ -1,9 +1,9 @@
 #pragma once
 
+#include <states/gamestate.h>
+
 #include <iostream>
 #include <memory>
-
-#include "gamestate.h"
 
 class MenuState : public GameState
 {

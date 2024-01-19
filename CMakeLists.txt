@@ -15,13 +15,13 @@ include_directories(src)
 add_executable(yasnake 
     src/main.cpp
     src/game.cpp
-    src/gamestate.cpp
-    src/matchstate.cpp
-    src/menustate.cpp
-    src/pausestate.cpp
     src/player.cpp
-    src/scorestate.cpp
     src/statemanager.cpp
+    src/states/gamestate.cpp
+    src/states/matchstate.cpp
+    src/states/menustate.cpp
+    src/states/pausestate.cpp
+    src/states/scorestate.cpp
 )
 target_link_libraries(yasnake PRIVATE sfml-graphics)
 target_compile_features(yasnake PRIVATE cxx_std_17)
