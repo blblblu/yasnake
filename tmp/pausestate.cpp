@@ -1,4 +1,5 @@
-#include "pausestate.hpp"
+#include "pausestate.h"
+
 #include <sstream>
 
 PauseState::PauseState() : GameState()

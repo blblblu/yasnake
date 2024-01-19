@@ -1,17 +1,16 @@
-#ifndef MATCHSTATE_H
-#define MATCHSTATE_H
+#pragma once
+
+#include "gamestate.h"
+#include "player.h"
+
+#include <boost/lexical_cast.hpp>
+#include <SFML/System.hpp>
 
 #include <cmath>
 #include <ctime>
 #include <iostream>
 #include <memory>
 #include <random>
-
-#include <boost/lexical_cast.hpp>
-#include <SFML/System.hpp>
-
-#include "gamestate.hpp"
-#include "player.hpp"
 
 class MatchState : public GameState
 {
@@ -52,7 +51,5 @@ private:
 
     std::uniform_int_distribution<> m_distributionX; // Zahlenverteilung betreffend x-Achse
     std::uniform_int_distribution<> m_distributionY; // Zahlenverteilung betreffend x-Achse
-    std::mt19937 m_engine; // Mersenne-Twister
+    std::mt19937 m_engine;                           // Mersenne-Twister
 };
-
-#endif // MATCHSTATE_H

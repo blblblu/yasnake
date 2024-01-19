@@ -1,9 +1,8 @@
-#ifndef PAUSESTATE_H
-#define PAUSESTATE_H
+#pragma once
+
+#include "gamestate.h"
 
 #include <memory>
-
-#include "gamestate.hpp"
 
 class PauseState : public GameState
 {
@@ -27,5 +26,3 @@ private:
     std::unique_ptr<sf::Font> m_sourceSansPro;
     std::unique_ptr<sf::Text> m_text;
 };
-
-#endif // PAUSESTATE_H

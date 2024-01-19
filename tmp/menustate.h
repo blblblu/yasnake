@@ -1,10 +1,9 @@
-#ifndef MENUSTATE_H
-#define MENUSTATE_H
+#pragma once
 
 #include <iostream>
 #include <memory>
 
-#include "gamestate.hpp"
+#include "gamestate.h"
 
 class MenuState : public GameState
 {
@@ -29,5 +28,3 @@ private:
     std::unique_ptr<sf::Text> m_name;
     std::unique_ptr<sf::Text> m_keyboardCommands;
 };
-
-#endif // MENUSTATE_H

@@ -1,15 +1,18 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
+#pragma once
+
+#include "debugoutput.h"
+#include "stateevent.h"
+#include "statemanager.h"
+
+#include <SFML/Graphics.hpp>
+
 
 #include <deque>
 #include <queue>
 #include <string>
 
-#include <SFML/Graphics.hpp>
 
-#include "debugoutput.hpp"
-#include "stateevent.hpp"
-#include "statemanager.hpp"
+
 
 class StateManager;
 
@@ -19,7 +22,7 @@ class GameState
 
 public:
     GameState();
-    virtual ~GameState(){}
+    virtual ~GameState() {}
 
     virtual void start() = 0;
     virtual void stop() = 0;
@@ -47,5 +50,3 @@ private:
 private:
     std::queue<StateEvent> m_stateEvents;
 };
-
-#endif // GAMESTATE_H

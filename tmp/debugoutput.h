@@ -1,5 +1,4 @@
-#ifndef DEBUGOUTPUT_H
-#define DEBUGOUTPUT_H
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -26,6 +25,3 @@ namespace DebugOutput
         std::cout << "  [StateManager] " << text << std::endl;
     }
 }
-
-
-#endif // DEBUGOUTPUT_H

@@ -1,5 +1,11 @@
-#ifndef STATEMANAGER_H
-#define STATEMANAGER_H
+#pragma once
+
+#include "debugoutput.hpp"
+#include "gamestate.hpp"
+
+#include <stack>
+
+#include <SFML/Graphics.hpp>
 
 #include <iostream>
 #include <map>
@@ -7,13 +13,6 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-
-#include <stack>
-
-#include <SFML/Graphics.hpp>
-
-#include "debugoutput.hpp"
-#include "gamestate.hpp"
 
 class GameState;
 
@@ -34,8 +33,6 @@ public:
     bool emptyActive();
 
 private:
-    std::map<std::string, std::unique_ptr<GameState> > m_statesById;
-    std::stack<GameState*> m_activeStates;
+    std::map<std::string, std::unique_ptr<GameState>> m_statesById;
+    std::stack<GameState *> m_activeStates;
 };
-
-#endif // STATEMANAGER_H

@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "player.h"
 
 // TODO: vielleicht besser mit Referenzen lösen...
 Player::Player(const sf::Vector2f startingPosition, const Direction direction, const sf::Color color, const float maximumLength)

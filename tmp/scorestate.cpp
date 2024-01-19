@@ -1,4 +1,5 @@
-#include "scorestate.hpp"
+#include "scorestate.h"
+
 #include <sstream>
 
 ScoreState::ScoreState() : GameState()

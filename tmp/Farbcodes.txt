@@ -1,3 +1,0 @@
-Game: GREEN
-GameState: CYAN
-StateManager: BLUE

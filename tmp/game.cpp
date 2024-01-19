@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "game.h"
 
 Game::Game()
 {
@@ -22,7 +22,7 @@ Game::Game()
     // Highscore aus Datei laden, wenn diese vorhanden ist
     std::ifstream input;
     input.open("score.save", std::ios::binary | std::ios::in);
-    if(input) // zum Abfangen von Fehlern, z.B. falls Spielstand noch nicht besteht
+    if (input) // zum Abfangen von Fehlern, z.B. falls Spielstand noch nicht besteht
     {
         input >> this->m_highscore;
     }
@@ -50,7 +50,7 @@ void Game::close()
 void Game::loop()
 {
     // Fenster schließen, wenn kein GameState mehr aktiv ist
-    if(this->m_stateManager.emptyActive())
+    if (this->m_stateManager.emptyActive())
         this->close();
     else
     {
@@ -70,9 +70,9 @@ bool Game::isOpen()
 void Game::handleStateEvents()
 {
     StateEvent stateEvent;
-    while(this->m_stateManager.backActive()->pollStateEvent(stateEvent))
+    while (this->m_stateManager.backActive()->pollStateEvent(stateEvent))
     {
-        switch(stateEvent.type)
+        switch (stateEvent.type)
         {
         case StateEvent::EventType::ReplaceState:
             this->m_stateManager.replaceState(boost::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
@@ -87,7 +87,7 @@ void Game::handleStateEvents()
         case StateEvent::EventType::PopState:
             this->m_stateManager.popState();
             // View zurücksetzen
-            if(!this->m_stateManager.emptyActive())
+            if (!this->m_stateManager.emptyActive())
                 this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
             break;
         case StateEvent::EventType::SubmitScoreEvent:
@@ -96,14 +96,14 @@ void Game::handleStateEvents()
             GameState *state;
             state = this->m_stateManager.getState("ScoreState");
             ScoreState *scoreState;
-            scoreState = dynamic_cast<ScoreState*>(state);
+            scoreState = dynamic_cast<ScoreState *>(state);
             scoreState->updateScore(this->m_highscore, this->m_lastScore);
             break;
         default:
             break;
         }
         // Automatisch aufhören, sobald kein GameState mehr aktiv ist
-        if(this->m_stateManager.emptyActive())
+        if (this->m_stateManager.emptyActive())
             break;
     }
 }
@@ -113,9 +113,9 @@ void Game::handleEvents()
     sf::Event event;
     while (this->m_window.pollEvent(event))
     {
-        if(event.type == sf::Event::Closed)
+        if (event.type == sf::Event::Closed)
             this->m_window.close();
-        if(event.type == sf::Event::Resized)
+        if (event.type == sf::Event::Resized)
             this->m_window.setView(this->m_stateManager.backActive()->resize(event.size.width, event.size.height));
 
         this->m_stateManager.backActive()->handleEvent(event);
@@ -138,12 +138,12 @@ void Game::submitScore(const unsigned int score)
 {
     this->m_lastScore = score;
     // Punktzahl speichern, wenn sie der neue Bestwert ist
-    if(score>this->m_highscore)
+    if (score > this->m_highscore)
     {
         this->m_highscore = score;
         std::ofstream output;
         output.open("score.save", std::ios::binary | std::ios::out | std::ios::trunc);
-        if(!output)
+        if (!output)
         {
             throw std::runtime_error("Score file could not be opened");
         }

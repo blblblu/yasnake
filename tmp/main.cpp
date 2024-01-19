@@ -1,15 +1,16 @@
-#include <iostream>
+#include "game.h"
 
 #include <SFML/Window.hpp>
 
-#include "game.hpp"
+#include <iostream>
 
 using namespace std;
 
-int main(/*int argc, char* argv[]*/) {
+int main(/*int argc, char* argv[]*/)
+{
     Game game;
 
-    while(game.isOpen())
+    while (game.isOpen())
         game.loop();
 
     return 0;

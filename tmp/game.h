@@ -1,5 +1,4 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
 #include <fstream>
 #include <iostream>
@@ -47,4 +46,3 @@ private:
     unsigned int m_lastScore;
 };
 
-#endif // GAME_H

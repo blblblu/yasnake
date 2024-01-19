@@ -1,4 +1,5 @@
-#include "menustate.hpp"
+#include "menustate.h"
+
 #include <sstream>
 
 MenuState::MenuState() : GameState()
@@ -53,16 +54,16 @@ void MenuState::resume()
 
 void MenuState::handleEvent(const sf::Event &event)
 {
-    switch(event.type)
+    switch (event.type)
     {
     case sf::Event::KeyPressed:
-        if(event.key.code == sf::Keyboard::Escape)
+        if (event.key.code == sf::Keyboard::Escape)
         {
             StateEvent stateEvent;
             stateEvent.type = StateEvent::EventType::PopState;
             this->addStateEvent(stateEvent);
         }
-        if(event.key.code == sf::Keyboard::Return)
+        if (event.key.code == sf::Keyboard::Return)
         {
             StateEvent stateEvent;
             stateEvent.type = StateEvent::EventType::PushState;
@@ -77,9 +78,9 @@ void MenuState::handleEvent(const sf::Event &event)
 
 sf::View MenuState::resize(const unsigned int x, const unsigned int y)
 {
-    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(y-30-this->m_keyboardCommands->getLocalBounds().height));
+    this->m_keyboardCommands->setPosition(static_cast<float>(30), static_cast<float>(y - 30 - this->m_keyboardCommands->getLocalBounds().height));
 
-    return sf::View(sf::Vector2f(x/2.f, y/2.f), sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
+    return sf::View(sf::Vector2f(x / 2.f, y / 2.f), sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
 }
 
 void MenuState::update()

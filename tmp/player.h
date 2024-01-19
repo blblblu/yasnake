@@ -1,22 +1,21 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
-#include <vector>
+#include "direction.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <stdexcept>
 
-#include "direction.hpp"
+#include <vector>
 
 class Player : public sf::Drawable
 {
 public:
-    struct PlayerLineElement //TODO: besserer Name
+    struct PlayerLineElement // TODO: besserer Name
     {
-        PlayerLineElement(sf::RectangleShape line, Direction direction) : line(line), direction(direction){}
+        PlayerLineElement(sf::RectangleShape line, Direction direction) : line(line), direction(direction) {}
         float getLength()
         {
-            if(this->direction == Direction::Up || this->direction == Direction::Down)
+            if (this->direction == Direction::Up || this->direction == Direction::Down)
                 return this->line.getSize().y;
             else
                 return this->line.getSize().x;
@@ -47,7 +46,7 @@ public:
 
 private:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-    
+
     void adjustLength();
 
     bool m_isActive;
@@ -55,5 +54,3 @@ private:
     float m_maximumLength;
     std::vector<PlayerLineElement> m_lines;
 };
-
-#endif // PLAYER_H

@@ -1,11 +1,10 @@
-#ifndef SCORESTATE_H
-#define SCORESTATE_H
+#pragma once
 
-#include <memory>
+#include "gamestate.hpp"
 
 #include <boost/lexical_cast.hpp>
 
-#include "gamestate.hpp"
+#include <memory>
 
 class ScoreState : public GameState
 {
@@ -36,5 +35,3 @@ private:
     unsigned int m_highscore;
     unsigned int m_score;
 };
-
-#endif // SCORESTATE_H
