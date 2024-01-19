@@ -20,15 +20,15 @@ void MenuState::start()
     this->m_sourceSansPro->loadFromFile("SourceSansPro-Light.ttf");
 
     this->m_title = std::unique_ptr<sf::Text>(new sf::Text("Snake", *this->m_sourceSansPro, 60));
-    this->m_title->setColor(sf::Color(133, 153, 0));
+    this->m_title->setFillColor(sf::Color(133, 153, 0));
     this->m_title->setPosition(sf::Vector2f(30, 10));
 
     this->m_name = std::unique_ptr<sf::Text>(new sf::Text("Sebastian Schulz", *this->m_sourceSansPro, 20));
-    this->m_name->setColor(sf::Color(42, 161, 152));
+    this->m_name->setFillColor(sf::Color(42, 161, 152));
     this->m_name->setPosition(sf::Vector2f(30, 75));
 
     this->m_keyboardCommands = std::unique_ptr<sf::Text>(new sf::Text("[Enter] - neues Spiel\n[Escape] - Spiel beenden", *this->m_sourceSansPro, 20));
-    this->m_keyboardCommands->setColor(sf::Color(38, 139, 210));
+    this->m_keyboardCommands->setFillColor(sf::Color(38, 139, 210));
     this->m_keyboardCommands->setPosition(sf::Vector2f(30, 530));
 }
 

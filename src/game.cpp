@@ -75,12 +75,12 @@ void Game::handleStateEvents()
         switch (stateEvent.type)
         {
         case StateEvent::EventType::ReplaceState:
-            this->m_stateManager.replaceState(boost::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
+            this->m_stateManager.replaceState(std::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
             // View zurücksetzen
             this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
             break;
         case StateEvent::EventType::PushState:
-            this->m_stateManager.pushState(boost::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
+            this->m_stateManager.pushState(std::get<StateEvent::StateChangeEvent>(stateEvent.data).name);
             // View zurücksetzen
             this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
             break;
@@ -91,7 +91,7 @@ void Game::handleStateEvents()
                 this->m_window.setView(this->m_stateManager.backActive()->resize(this->m_window.getSize().x, this->m_window.getSize().y));
             break;
         case StateEvent::EventType::SubmitScoreEvent:
-            this->submitScore(boost::get<StateEvent::SubmitScoreEvent>(stateEvent.data).score);
+            this->submitScore(std::get<StateEvent::SubmitScoreEvent>(stateEvent.data).score);
             // neue Punktzahl dem ScoreState übergeben
             GameState *state;
             state = this->m_stateManager.getState("ScoreState");
